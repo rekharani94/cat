@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "me.amitshekhar.newsapp.domain"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -30,9 +30,18 @@ android {
 dependencies {
     implementation(project(":utils"))
 
+  /*  implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-compiler:2.48")*/
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-compiler:2.48")
+    implementation ("androidx.room:room-runtime:2.6.1")
+    implementation ("androidx.room:room-ktx:2.6.1")
+    implementation ("androidx.paging:paging-common-ktx:3.2.1")
+    kapt ("androidx.room:room-compiler:2.5.0")
+    implementation ("androidx.paging:paging-runtime-ktx:3.2.1")
+    implementation ("androidx.paging:paging-compose:3.2.1")
 
     testImplementation("junit:junit:4.13.2")
 }
