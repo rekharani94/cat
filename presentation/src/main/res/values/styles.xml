@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="circle">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="user_card_text_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">4dp</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="TextViewHeadLines" >
+
+        <item name="android:textSize">@dimen/text_medium</item>
+        <item name="android:textColor">@android:color/white</item>
+
+    </style>
+
+    <style name="TextViewDetails" >
+
+        <item name="android:textSize">@dimen/text_small</item>
+        <item name="android:textColor">@color/colorDarkGray</item>
+
+
+    </style>
+
+
+    <style name="Widget.IOSched.RaisedButton" parent="@style/Widget.AppCompat.Button.Colored">
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/fredoka_one_regular</item>
+        <item name="android:letterSpacing">0.025</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:paddingLeft">24dp</item>
+        <item name="android:paddingRight">24dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="cornerFamilyTopLeft">rounded</item>
+        <item name="cornerFamilyBottomLeft">rounded</item>
+        <item name="cornerFamilyTopRight">rounded</item>
+        <item name="cornerFamilyBottomRight">rounded</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+
+    <style name="normal_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.025</item>
+        <item name="android:fontFamily">@font/font_family</item>
+    </style>
+
+    <style name="normal_text_roboto">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.025</item>
+        <item name="android:fontFamily">@font/roboto_thin</item>
+    </style>
+
+    <style name="title_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.025</item>
+        <item name="android:fontFamily">@font/font_family</item>
+    </style>
+
+</resources>

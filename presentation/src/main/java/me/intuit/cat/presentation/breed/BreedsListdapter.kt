@@ -35,8 +35,6 @@ class BreedsListdapter @Inject constructor() : PagingDataAdapter<BreedImage, Rec
 
         )
     }
-
-
     class CatItemViewHolder(private val binding: BreedItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {

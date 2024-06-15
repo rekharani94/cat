@@ -10,23 +10,23 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 
-//import me.amitshekhar.newsapp.presentation.databinding.FragmentCatDetailBinding
 import me.intuit.cat.domain.model.Breed
 import me.intuit.cat.domain.model.BreedImage
+import me.intuit.cat.presentation.databinding.FragmentBreedDetailBinding
 import me.intuit.cat.presentation.utils.Status
 
-/*@AndroidEntryPoint
+@AndroidEntryPoint
 class BreedDetailFragment : Fragment() {
 
     private val viewModel: BreedDetailViewModel by viewModels()
-    //private val args : BreedDetailFragmentArgs by navArgs()
-   // lateinit var dataBinding: FragmentCatDetailBinding
+    private val args : BreedDetailFragmentArgs by navArgs()
+   lateinit var dataBinding: FragmentBreedDetailBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-       // dataBinding = FragmentCatDetailBinding.inflate(inflater)
+       dataBinding = FragmentBreedDetailBinding.inflate(inflater)
         initMembers()
         observeBreedDetails()
         return dataBinding.root
@@ -75,5 +75,5 @@ private fun setBreedData(data: List<Breed>) {
     }
 }
 
-}*/
+}
 
