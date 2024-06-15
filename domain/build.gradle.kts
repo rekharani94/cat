@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "me.amitshekhar.newsapp.domain"
+    namespace = "me.intuit.cat.domain"
     compileSdk = 34
 
     defaultConfig {

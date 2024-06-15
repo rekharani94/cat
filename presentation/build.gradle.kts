@@ -3,10 +3,12 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("androidx.navigation.safeargs.kotlin")
+
 }
 
 android {
-    namespace = "me.amitshekhar.newsapp.presentation"
+    namespace = "me.intuit.cat.presentation"
     compileSdk = 34
 
     defaultConfig {

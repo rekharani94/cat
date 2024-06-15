@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/breedListFragment"
+    android:id="@+id/nav_main">
+
+    <fragment
+        android:id="@+id/breedListFragment"
+        android:label="BreedsListFragment"
+        android:name="me.intuit.cat.presentation.breed.BreedsListFragment"
+        tools:layout="@layout/fragment_breed_list">
+        <action
+            android:id="@+id/actionBreedList_to_BreedDetailFragment"
+            app:destination="@id/breedDetailFragment">
+        </action>
+
+    </fragment>
+    <fragment
+        android:id="@+id/breedDetailFragment"
+        android:label="BreedDetailFragment"
+        android:name="me.intuit.cat.presentation.breed.BreedDetailFragment"
+        tools:layout="@layout/fragment_breed_detail">
+        <argument
+            android:name="breedImage"
+            app:argType="me.intuit.cat.domain.model.BreedImage"></argument>
+    </fragment>
+</navigation>
