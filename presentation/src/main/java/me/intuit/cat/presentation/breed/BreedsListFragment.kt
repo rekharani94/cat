@@ -25,7 +25,7 @@ class BreedsListFragment : Fragment() {
     lateinit var binding: FragmentBreedListBinding
 
     //@Inject
-    //lateinit var adapter: BreedsListdapter
+    lateinit var adapter: BreedsListdapter
     val newsViewModel: BreedListViewModel by viewModels()
 
     @Inject
@@ -53,10 +53,10 @@ class BreedsListFragment : Fragment() {
     }
 
     private fun initMembers() {
-       // adapter = BreedsListdapter()
+        adapter = BreedsListdapter()
         binding.rvBreeds.layoutManager  = GridLayoutManager(context, 2)
-       // binding.rvBreeds.adapter = adapter
-        //adapter.stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
+         binding.rvBreeds.adapter = adapter
+        adapter.stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
     }
 }

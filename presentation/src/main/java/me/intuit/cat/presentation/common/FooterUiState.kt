@@ -2,7 +2,7 @@ package me.intuit.cat.presentation.common
 
 import android.content.Context
 import androidx.paging.LoadState
-import me.amitshekhar.newsapp.presentation.R
+import me.intuit.cat.presentation.R
 import me.intuit.cat.presentation.common.BaseUiState
 
 /**

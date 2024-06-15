@@ -8,14 +8,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import me.intuit.cat.domain.model.BreedImage
+import me.intuit.cat.presentation.R
+import me.intuit.cat.presentation.databinding.BreedItemBinding
 
-//import me.amitshekhar.newsapp.presentation.databinding.ItemBreedImageViewBinding
 import javax.inject.Inject
 
 /**
- * Adapter for the [RecyclerView] in [NewsFragment].
+
  */
-/*
+
 class BreedsListdapter @Inject constructor() : PagingDataAdapter<BreedImage, RecyclerView.ViewHolder>(
     DiffCallback()
 ) {
@@ -28,24 +29,21 @@ class BreedsListdapter @Inject constructor() : PagingDataAdapter<BreedImage, Rec
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatItemViewHolder {
         return CatItemViewHolder(
-            ItemBreedImageViewBinding.inflate(
+            BreedItemBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
 
         )
     }
-    */
-/**
-     * view holder class for doggo item
-     *//*
 
-    class CatItemViewHolder(private val binding: ItemBreedImageViewBinding) : RecyclerView.ViewHolder(binding.root) {
+
+    class CatItemViewHolder(private val binding: BreedItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
         companion object {
             fun getInstance(parent: ViewGroup): CatItemViewHolder {
                 val inflater = LayoutInflater.from(parent.context)
-                val view = inflater.inflate(R.layout.cat_image_item, parent, false)
-                val binding = ItemBreedImageViewBinding.inflate(inflater)
+                val view = inflater.inflate(R.layout.breed_item, parent, false)
+                val binding = BreedItemBinding.inflate(inflater)
 
                 return CatItemViewHolder(binding)
             }
@@ -53,12 +51,12 @@ class BreedsListdapter @Inject constructor() : PagingDataAdapter<BreedImage, Rec
 
         fun bind(breedImage: BreedImage?) {
 
-            binding.ivDoggoMain.load(breedImage?.url){
+            binding.ivBreedImage.load(breedImage?.url){
                 placeholder(R.drawable.ic_cat)
             }
             binding.root.setOnClickListener {
                 breedImage?.let { image ->
-                    val direction=  BreedsListFragmentDirections.actionCatListFragmentToBreedDetailFragment(
+                    val direction=  BreedsListFragmentDirections.actionBreedListToBreedDetailFragment(
                           image
                       )
                     it.findNavController().navigate(direction)
@@ -89,4 +87,4 @@ class BreedsListdapter @Inject constructor() : PagingDataAdapter<BreedImage, Rec
         }
     }
 }
-*/
+
