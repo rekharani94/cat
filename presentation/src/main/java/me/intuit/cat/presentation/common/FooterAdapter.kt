@@ -5,12 +5,8 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil.inflate
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
-//import me.amitshekhar.newsapp.presentation.databinding.ItemPagingFooterBinding
-
-/**
-/*
- * Created by Oguz Sahin on 11/11/2021.
- *//*
+import me.intuit.cat.presentation.R
+import me.intuit.cat.presentation.databinding.ItemPagingFooterBinding
 
 
 class FooterAdapter(
@@ -35,4 +31,3 @@ class FooterAdapter(
 
 }
 
-*/

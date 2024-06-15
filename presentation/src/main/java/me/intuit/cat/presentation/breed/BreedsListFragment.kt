@@ -16,6 +16,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import me.intuit.cat.data.utils.NetworkHelper
+import me.intuit.cat.presentation.common.FooterAdapter
 import me.intuit.cat.presentation.databinding.FragmentBreedListBinding
 import me.intuit.cat.presentation.utils.collect
 import javax.inject.Inject
@@ -24,7 +25,7 @@ import javax.inject.Inject
 class BreedsListFragment : Fragment() {
     lateinit var binding: FragmentBreedListBinding
 
-    //@Inject
+    @Inject
     lateinit var adapter: BreedsListdapter
     val newsViewModel: BreedListViewModel by viewModels()
 
@@ -45,6 +46,7 @@ class BreedsListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initMembers()
+        subscribeUI(adapter)
         //setAdapter()
        // setUpViews(view)
         // subscribeUI(adapter)
@@ -57,6 +59,16 @@ class BreedsListFragment : Fragment() {
         binding.rvBreeds.layoutManager  = GridLayoutManager(context, 2)
          binding.rvBreeds.adapter = adapter
         adapter.stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
+        binding?.rvBreeds?.adapter = adapter.withLoadStateFooter(FooterAdapter(adapter::retry))
+
+
+    }
+    private fun subscribeUI(adapter: BreedsListdapter) {
+        lifecycleScope.launch {
+            newsViewModel.fetchBreeds().distinctUntilChanged().collectLatest {
+                adapter.submitData(it)
+            }
+        }
 
     }
 }
