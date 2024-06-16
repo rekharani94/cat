@@ -18,7 +18,7 @@ class DatabaseModule {
 
     @DatabaseName
     @Provides
-    fun provideDatabaseName(): String = "news-database"
+    fun provideDatabaseName(): String = "cats-database"
 
     @Provides
     @Singleton

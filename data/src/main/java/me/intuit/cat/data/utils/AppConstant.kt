@@ -10,7 +10,8 @@ object AppConstant {
     const val READ_TIMEOUT = 60L
     const val WRITE_TIMEOUT = 120L
     const val BASE_URL = "https://api.thecatapi.com/v1/"
-    const val API_KEY = "47ce9b82-e3ce-464e-8571-2efd219af5f2"
+    //const val API_KEY = "47ce9b82-e3ce-464e-8571-2efd219af5f2"
+    const val API_KEY = "live_kepGLPi2SWnCphHa7RTpoOBBLO5ECXxbeLdFXVxGW0A5Z141vPJsMn16xckiUMLy"
     const val BREEDS = "breeds"
 
     const val IMAGE = "images/search/"

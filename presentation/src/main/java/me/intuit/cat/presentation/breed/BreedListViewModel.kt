@@ -27,6 +27,13 @@ class BreedListViewModel @Inject constructor(private val getBreedsListUseCase: G
 
     val uiState: StateFlow<PagingData<Breed>> = _uiState
 
+     init {
+         checkInternet()
+     }
+
+    private fun checkInternet() {
+        TODO("Not yet implemented")
+    }
 
     suspend fun fetchBreeds(): Flow<PagingData<BreedImage>> {
         return getBreedsImagesFromDBUseCase().cachedIn(viewModelScope)

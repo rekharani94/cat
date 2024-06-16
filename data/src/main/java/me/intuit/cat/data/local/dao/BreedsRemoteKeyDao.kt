@@ -7,7 +7,6 @@ import androidx.room.Query
 import me.intuit.cat.data.local.entity.BreedRemoteKeyDbData
 
 /**
- * @author by Ali Asadi on 30/01/2023
  */
 @Dao
 interface BreedsRemoteKeyDao {

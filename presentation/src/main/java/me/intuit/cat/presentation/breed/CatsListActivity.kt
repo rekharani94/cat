@@ -17,11 +17,11 @@ class CatsListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_cat)
 
         var navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
          navController = navHostFragment.navController
-          setBinding()
+          //setBinding()
     }
 
     private fun setBinding() {

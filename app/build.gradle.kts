@@ -10,7 +10,7 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "me.amitshekhar.newsapp"
+        applicationId = "me.intuit.cat"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

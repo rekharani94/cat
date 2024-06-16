@@ -10,15 +10,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy
 
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import me.intuit.cat.data.utils.NetworkHelper
+import me.intuit.cat.presentation.common.BreedUiState
 import me.intuit.cat.presentation.common.FooterAdapter
 import me.intuit.cat.presentation.databinding.FragmentBreedListBinding
 import me.intuit.cat.presentation.utils.collect
+import me.intuit.cat.presentation.utils.executeWithAction
 import javax.inject.Inject
 @ExperimentalPagingApi
 @AndroidEntryPoint
@@ -39,28 +42,22 @@ class BreedsListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentBreedListBinding.inflate(inflater, container, false)
+        initMembers()
+
+        subscribeUI(adapter)
+
         context ?: return binding.root
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initMembers()
-        subscribeUI(adapter)
-        //setAdapter()
-       // setUpViews(view)
-        // subscribeUI(adapter)
 
-        //subscribeUI(adapter)
-    }
 
     private fun initMembers() {
+        binding.rvBreeds.layoutManager  = GridLayoutManager(context,2)
         adapter = BreedsListdapter()
-        binding.rvBreeds.layoutManager  = GridLayoutManager(context, 2)
-         binding.rvBreeds.adapter = adapter
+        binding.rvBreeds.adapter = adapter
         adapter.stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
         binding?.rvBreeds?.adapter = adapter.withLoadStateFooter(FooterAdapter(adapter::retry))
-
 
     }
     private fun subscribeUI(adapter: BreedsListdapter) {
@@ -70,5 +67,19 @@ class BreedsListFragment : Fragment() {
             }
         }
 
+    }
+    private fun setAdapter() {
+      /*  collect(flow = adapter.loadStateFlow
+            .distinctUntilChangedBy { it.source.refresh }
+            .map { it.refresh },
+            action = ::setUiState
+        )*/
+        //binding?.rvBreeds?.adapter = adapter.withLoadStateFooter(FooterAdapter(adapter::retry))
+    }
+
+    private fun setUiState(loadState: LoadState) {
+       /* binding?.executeWithAction {
+            BreedUiState(loadState)
+        }*/
     }
 }

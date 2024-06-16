@@ -7,7 +7,7 @@ import me.intuit.cat.domain.util.Result
 
 class RemoteDataSource(private val apiService: NetworkService):BreedsDataSource.Remote {
     override suspend fun getBreedsImages(page: Int, limit: Int): Result<List<BreedImage>> = try {
-        val result = apiService.getBreedImagesList(limit,page)
+        val result = apiService.getBreedImagesList(page,limit)
         Result.Success(result.map { it.toDomain() })
     } catch (e: Exception) {
         Result.Error(e)
