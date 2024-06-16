@@ -105,7 +105,7 @@ class BreedsRepositoryImpl @Inject constructor(
 
 
 
-    override suspend fun getBreedsImagesFromDB(): Flow<List<Breed>> = withContext(Dispatchers.IO){
+    override suspend fun getBreedsfromDB(): Flow<List<Breed>> = withContext(Dispatchers.IO){
         if (appDatabase == null) throw IllegalStateException("Database is not initialized")
 
         val breedsImagesList = appDatabase.breedDao().getAll()

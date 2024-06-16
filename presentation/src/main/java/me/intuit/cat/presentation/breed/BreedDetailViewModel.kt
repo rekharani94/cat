@@ -15,7 +15,7 @@ import me.intuit.cat.presentation.base.BaseViewModel
 import me.intuit.cat.data.utils.NetworkHelper
 import me.intuit.cat.domain.model.Breed
 import me.intuit.cat.domain.usecase.BreedDetailUseCases
-import me.intuit.cat.domain.usecase.GetBreedImagesFromDBUseCases
+import me.intuit.cat.domain.usecase.GetBreedDetailsFromDBUseCases
 import me.intuit.cat.presentation.utils.State
 
 import javax.inject.Inject
@@ -23,11 +23,11 @@ import javax.inject.Inject
 @HiltViewModel
 class BreedDetailViewModel @Inject constructor(var networkHelper: NetworkHelper,
                                                private val breedDetailUsecase: BreedDetailUseCases,
-                                               private val getDBBreedImagesUseCase: GetBreedImagesFromDBUseCases
+                                               private val getbreedDetailsfromDBUseCase: GetBreedDetailsFromDBUseCases
 ) : BaseViewModel() {
 
-    val breedImages: LiveData<State<List<Breed>>> get() = _BreedImages
-    private val _BreedImages = MutableLiveData<State<List<Breed>>>()
+    val breeds: LiveData<State<List<Breed>>> get() = _breeds
+    private val _breeds = MutableLiveData<State<List<Breed>>>()
     fun loadBreedImages(
         imageId: String,
     ) {
@@ -40,30 +40,30 @@ class BreedDetailViewModel @Inject constructor(var networkHelper: NetworkHelper,
                         imageId,
                     ).flowOn(Dispatchers.IO)
                         .catch { e ->
-                            _BreedImages.value = State.error(e.message)
+                            _breeds.value = State.error(e.message)
 
                         }.collect {
-                        _BreedImages.value  = State.success(it)
+                        _breeds.value  = State.success(it)
                         }
                 } catch (exception: Exception) {
-                    _BreedImages.value = State.error(exception.message)
+                    _breeds.value = State.error(exception.message)
                 }
 
             }
         } else {
-            getImagesDirectlyFromDB()
+            getbreedDetailsDirectlyFromDB()
         }
 
     }
 
-    private fun getImagesDirectlyFromDB() {
+    private fun getbreedDetailsDirectlyFromDB() {
         viewModelScope.launch {
-            getDBBreedImagesUseCase().flowOn(Dispatchers.IO)
+            getbreedDetailsfromDBUseCase().flowOn(Dispatchers.IO)
                 .catch { e ->
-                    _BreedImages.value  = State.error(e.message)
+                    _breeds.value  = State.error(e.message)
 
                 }.collect { it ->
-                    _BreedImages.value  = State.success(it)
+                    _breeds.value  = State.success(it)
 
                 }
         }

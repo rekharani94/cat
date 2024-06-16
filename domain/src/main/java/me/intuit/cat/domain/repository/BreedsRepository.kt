@@ -14,7 +14,7 @@ interface BreedsRepository {
         size: String,
         memeTypes: String
     ): Flow<List<BreedImage>>
-   suspend fun getBreedsImagesFromDB(): Flow<List<Breed>>
+   suspend fun getBreedsfromDB(): Flow<List<Breed>>
     fun getBreeds(imageId: String): Flow<List<Breed>>
    // suspend fun sync(): Boolean
 }

@@ -10,18 +10,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy
 
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import me.intuit.cat.data.utils.NetworkHelper
-import me.intuit.cat.presentation.common.BreedUiState
 import me.intuit.cat.presentation.common.FooterAdapter
 import me.intuit.cat.presentation.databinding.FragmentBreedListBinding
-import me.intuit.cat.presentation.utils.collect
-import me.intuit.cat.presentation.utils.executeWithAction
 import javax.inject.Inject
 @ExperimentalPagingApi
 @AndroidEntryPoint
@@ -30,7 +26,7 @@ class BreedsListFragment : Fragment() {
 
     @Inject
     lateinit var adapter: BreedsListdapter
-    val newsViewModel: BreedListViewModel by viewModels()
+    val breedsViewModel: BreedListViewModel by viewModels()
 
     @Inject
     lateinit var networkHelper: NetworkHelper
@@ -61,9 +57,34 @@ class BreedsListFragment : Fragment() {
 
     }
     private fun subscribeUI(adapter: BreedsListdapter) {
+
         lifecycleScope.launch {
-            newsViewModel.fetchBreeds().distinctUntilChanged().collectLatest {
+            breedsViewModel.fetchBreeds().distinctUntilChanged().collectLatest {
                 adapter.submitData(it)
+            }
+            breedsViewModel.fetchDBstate()
+            breedsViewModel.dbstate.observe(viewLifecycleOwner){
+                if(it){
+                    binding.progressBar.visibility=View.VISIBLE
+                    binding.tvError.visibility=View.VISIBLE
+                    binding.btnRetry.visibility=View.VISIBLE
+                    binding.rvBreeds.visibility=View.GONE
+                    binding.noInternet.visibility=View.VISIBLE
+                }
+            }
+        }
+        /*breedsViewModel.fetchBreeds().distinctUntilChanged().collectLatest {
+            adapter.submitData(it)
+        }*/
+        breedsViewModel.networkState.observe(viewLifecycleOwner){
+            if(it) {
+                setUpViews()
+            }
+            else {
+                binding.progressBar.visibility=View.VISIBLE
+                binding.tvError.visibility=View.VISIBLE
+                binding.btnRetry.visibility=View.VISIBLE
+                binding.noInternet.visibility=View.VISIBLE
             }
         }
 
@@ -82,4 +103,14 @@ class BreedsListFragment : Fragment() {
             BreedUiState(loadState)
         }*/
     }
+
+    private fun setUpViews() {
+        binding.progressBar.visibility=View.GONE
+        binding.rvBreeds.visibility=View.VISIBLE
+        binding.tvError.visibility=View.GONE
+        binding.btnRetry.visibility=View.GONE
+        binding.noInternet.visibility=View.GONE
+        }
+
+
 }

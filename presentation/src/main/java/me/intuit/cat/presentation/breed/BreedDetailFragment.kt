@@ -43,7 +43,7 @@ class BreedDetailFragment : Fragment() {
 
     private fun observeBreedDetails() {
 
-    viewModel.breedImages.observe(viewLifecycleOwner) {state->
+    viewModel.breeds.observe(viewLifecycleOwner) { state->
         when (state.status) {
             Status.SUCCESS -> {
                 state.data?.let { setBreedData(it) }
@@ -69,7 +69,7 @@ private fun setImages(data: BreedImage) {
 
 }
 private fun setBreedData(data: List<Breed>) {
-    if (data != null) {
+    if (data != null && data.isNotEmpty()) {
         dataBinding.breed = data[0]
 
     }

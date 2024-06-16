@@ -5,11 +5,11 @@ import me.intuit.cat.domain.model.Breed
 import me.intuit.cat.domain.repository.BreedsRepository
 import javax.inject.Inject
 
-data class GetBreedImagesFromDBUseCases
+data class GetBreedDetailsFromDBUseCases
     @Inject constructor(private val catBreedsRepository: BreedsRepository
 ) {
 
     suspend operator fun invoke(): Flow<List<Breed>> {
-        return catBreedsRepository.getBreedsImagesFromDB()
+        return catBreedsRepository.getBreedsfromDB()
     }
 }
