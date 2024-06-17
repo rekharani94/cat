@@ -21,7 +21,6 @@
             android:name=".presentation.breed.CatsListActivity"
             android:exported="true"
             tools:node="merge"
-            android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
