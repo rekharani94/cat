@@ -8,12 +8,6 @@ import me.intuit.cat.domain.model.BreedImage
 interface BreedsRepository {
     fun getBreedsImagesList(): Flow<PagingData<BreedImage>>
     suspend fun getBreedsDirectlyFromDB(): Flow<PagingData<BreedImage>>
-     fun getBreedsImagesFromRemote(
-        imageId: String,
-        imageLimit: Int,
-        size: String,
-        memeTypes: String
-    ): Flow<List<BreedImage>>
    suspend fun getBreedsfromDB(): Flow<List<Breed>>
     fun getBreeds(imageId: String): Flow<List<Breed>>
    // suspend fun sync(): Boolean

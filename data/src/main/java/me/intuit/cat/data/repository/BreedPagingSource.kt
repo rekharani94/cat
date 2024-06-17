@@ -62,7 +62,6 @@ private const val STARTING_PAGE_INDEX = 1
         return try {
             val response = apiService.getBreedImagesList(page, params.loadSize)
             val result =  response.mapToDomain()
-            //getDoggoImages(page, params.loadSize)
             LoadResult.Page(
                 result, prevKey = if (page == DEFAULT_PAGE_INDEX) null else page - 1,
                 nextKey = if (response.isEmpty()) null else page + 1

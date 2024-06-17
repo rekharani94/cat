@@ -116,29 +116,8 @@ class BreedsRepositoryImpl @Inject constructor(
         emit(apiService.getBreedImages(imageId).mapToDomain())
     }
 
- /*   override suspend fun sync(): Boolean = localDataSource.getBreedImages() .getResult({ movieIdsResult ->
-        remoteDataSource.getBreedsImages().getResult({
-            localDataSource. .saveMovies(it.data)
-            true
-        }, {
-            it.error is DataNotAvailableException
-        })
-    }, {
-        it.error is DataNotAvailableException
-    })*/
-/*
+    }
 
-    override suspend fun sync(): Boolean = localDataSource.getBreedImages() .getResult({ movieIdsResult ->
-        remoteDataSource.getBreedsImages(0,10).getResult({
-            localDataSource.insertBreedsImagesList(it.data)
-            true
-        }, {
-            it.error is DataNotAvailableException
-        })
-    }, {
-        it.error is DataNotAvailableException
-    })
-*/
 
 
 }

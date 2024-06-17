@@ -39,8 +39,6 @@ class BreedListViewModel @Inject constructor(private val getBreedsListUseCase: G
 
      init {
          checkInternet()
-
-
      }
 
     private fun checkInternet() {

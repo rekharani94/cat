@@ -9,9 +9,6 @@ import me.intuit.cat.domain.model.Breed
 import me.intuit.cat.domain.model.BreedImage
 import me.intuit.cat.domain.util.Result
 
-/**
- * Created by Ali Asadi on 13/05/2020
- */
 interface BreedsDataSource {
 
     interface Remote {

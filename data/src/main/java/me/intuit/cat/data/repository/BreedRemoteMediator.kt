@@ -28,43 +28,6 @@ class BreedsRemoteMediator @Inject constructor(
     private val appDatabase: AppDatabase
 ) : RemoteMediator<Int, BreedImageEntity>() {
 
-/*    override suspend fun load(loadType: LoadType, state: PagingState<Int, BreedEntity>): MediatorResult {
-        val page = when (loadType) {
-            LoadType.REFRESH -> MOVIE_STARTING_PAGE_INDEX
-            LoadType.PREPEND -> return MediatorResult.Success(endOfPaginationReached = true)
-            LoadType.APPEND -> local.getLastRemoteKey()?.nextPage ?: return MediatorResult.Success(endOfPaginationReached = true)
-        }
-
-      //  Log.d("XXX", "BreedsRemoteMediator: load() called with: loadType = $loadType, page: $page, stateLastItem = ${state.isEmpty()}")
-
-        // There was a lag in loading the first page; as a result, it jumps to the end of the pagination.
-        if (state.isEmpty() && page == 2) return MediatorResult.Success(endOfPaginationReached = false)
-
-        remote.getBreeds(page, state.config.pageSize).getResult({ successResult ->
-            Log.d("XXX", "BreedsRemoteMediator: get movies from remote")
-            if (loadType == LoadType.REFRESH) {
-                local.clearBreeds()
-                local.clearRemoteKeys()
-            }
-
-            val breeds = successResult.data
-
-            val endOfPaginationReached = breeds.isEmpty()
-
-            val prevPage = if (page == MOVIE_STARTING_PAGE_INDEX) null else page - 1
-            val nextPage = if (endOfPaginationReached) null else page + 1
-
-            val key = BreedRemoteKeyDbData(prevPage = prevPage, nextPage = nextPage)
-
-            local.insertBreed(breeds)
-            local.saveRemoteKey(key)
-
-            return MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
-        }, { errorResult ->
-            return MediatorResult.Error(errorResult.error)
-        })
-    }*/
-
   @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
   override suspend fun load(
         loadType: LoadType, state: PagingState<Int, BreedImageEntity>
@@ -81,8 +44,6 @@ class BreedsRemoteMediator @Inject constructor(
         }
 
       try {
-           // remote.getBreeds(page, state.config.pageSize).getResult
-           // val response = doggoApiService.getDoggoImages(page, state.config.pageSize)
             val response = remote.getBreedsImages(page, state.config.pageSize)
             val keys:ArrayList<BreedRemoteKeyDbData> =  arrayListOf()
             val breedsEntity:ArrayList<BreedImageEntity> =  arrayListOf()

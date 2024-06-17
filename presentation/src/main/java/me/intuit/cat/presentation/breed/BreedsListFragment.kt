@@ -73,9 +73,7 @@ class BreedsListFragment : Fragment() {
                 }
             }
         }
-        /*breedsViewModel.fetchBreeds().distinctUntilChanged().collectLatest {
-            adapter.submitData(it)
-        }*/
+
         breedsViewModel.networkState.observe(viewLifecycleOwner){
             if(it) {
                 setUpViews()
