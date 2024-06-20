@@ -79,7 +79,7 @@ class RepositoryModule {
         appDaDatabase: AppDatabase,
         localDataSource: BreedsDataSource.Local
     ): BreedsRepository {
-            return BreedsRepositoryImpl(apiService,remoteSource,appDaDatabase,localDataSource)
+            return BreedsRepositoryImpl(apiService,remoteSource,appDaDatabase)
     }
 
 }
