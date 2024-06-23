@@ -7,10 +7,10 @@ import me.intuit.cat.domain.repository.BreedsRepository
 import javax.inject.Inject
 
 data class GetBreedsFromDBUseCases
-    @Inject constructor(private val catBreedsRepository: BreedsRepository
+@Inject constructor(
+    private val repo: BreedsRepository
 ) {
-
     suspend operator fun invoke(): Flow<PagingData<BreedImage>> {
-        return catBreedsRepository.getBreedsDirectlyFromDB()
+        return repo.getBreedsImage()
     }
 }

@@ -18,6 +18,7 @@ data class BreedDto(val id: String, val name: String?, val description: String?,
 fun BreedDto.toDomain(): Breed {
     return Breed(
         id = id,
+        imageId = id,
         description = description,
         origin = origin,
         temperament = temperament,
@@ -40,27 +41,7 @@ fun Breed.toBreedDto(): BreedDto {
         wikipedia_url = wikipedia_url
     )
 }
-/*fun Breed.toEntity(): me.intuit.catsapp.data.local.entities.Breed {
-    return Breed(
-        id = id,
-        description = description,
-        origin = origin,
-        temperament = temperament,
-        name = name,
-        hypoallergenic = hypoallergenic,
-    )
-}*/
 
-/*fun Breed.toDomain():Breed {
-    return Breed(
-        id = id,
-        description = description,
-        origin = origin,
-        temperament = temperament,
-        name = name,
-        hypoallergenic = hypoallergenic,
-    )
-}*/
 fun List<Breed>.mapFromBreedListModel(): List<BreedDto> {
     return this.map {
         it.toBreedDto()

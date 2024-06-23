@@ -20,7 +20,8 @@ import org.junit.runner.RunWith
 import java.io.IOException
 
 @RunWith(AndroidJUnit4::class)
-class DaoTest {
+class
+DaoTest {
     private lateinit var breedImageDao: BreedImageDao
     private lateinit var breedDao: BreedDao
     private lateinit var db: AppDatabase

@@ -5,17 +5,17 @@ import androidx.room.*
 import me.intuit.cat.data.local.entity.BreedEntity
 
 /**
- * data access object for currency entity
  */
 @Dao
 interface BreedDao {
 
     @Query("SELECT * FROM breed_entity ")
-    fun breeds(): PagingSource<Int, BreedEntity>
-    @Query("SELECT * FROM breed_entity ")
     fun getAll(): List<BreedEntity>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Query("SELECT * FROM breed_entity where imageId = :imgid")
+    fun getBreedById(imgid:String): BreedEntity
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(breed: BreedEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

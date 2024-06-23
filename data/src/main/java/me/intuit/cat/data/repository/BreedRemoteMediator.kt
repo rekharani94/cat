@@ -14,7 +14,7 @@ import me.intuit.cat.data.local.AppDatabase
 import me.intuit.cat.data.local.entity.BreedImageEntity
 import me.intuit.cat.data.local.entity.BreedRemoteKeyDbData
 import me.intuit.cat.data.mapper.toBreedEntityList
-import me.intuit.cat.data.repository.BreedsRepositoryImpl.Companion.DEFAULT_PAGE_INDEX
+import me.intuit.cat.data.repository.BreedsRepo.Companion.DEFAULT_PAGE_INDEX
 import me.intuit.cat.domain.util.onSuccess
 import java.io.IOException
 import java.io.InvalidObjectException

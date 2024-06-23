@@ -30,13 +30,7 @@ class DatabaseModule {
             context,
             AppDatabase::class.java,
             databaseName
-        ).build()
+        ).fallbackToDestructiveMigration() .build()
 
-
-        /* @Provides
-    @Singleton
-    fun provideDatabaseService(appDatabase: AppDatabase): DatabaseService {
-        return AppDatabaseService(appDatabase)
-    }*/
     }
 }

@@ -12,8 +12,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 import me.intuit.cat.domain.model.Breed
 import me.intuit.cat.domain.model.BreedImage
+import me.intuit.cat.domain.util.getResult
 import me.intuit.cat.presentation.databinding.FragmentBreedDetailBinding
-import me.intuit.cat.presentation.utils.Status
 
 @AndroidEntryPoint
 class BreedDetailFragment : Fragment() {
@@ -28,7 +28,6 @@ class BreedDetailFragment : Fragment() {
     ): View? {
        dataBinding = FragmentBreedDetailBinding.inflate(inflater)
         initMembers()
-        observeBreedDetails()
         return dataBinding.root
     }
 
@@ -36,42 +35,59 @@ class BreedDetailFragment : Fragment() {
         val breed = args.breedImage
         dataBinding.breedImage = breed
         setImages(breed)
-        viewModel.loadBreedImages(
-            breed.id
-        )
+        setBreedData(breed.breeds)
+
     }
 
     private fun observeBreedDetails() {
+        viewModel.breeds.observe(viewLifecycleOwner) { state ->
+            state.getResult({
+                setBreedData(it.data)
 
-    viewModel.breeds.observe(viewLifecycleOwner) { state->
+            },{
+                dataBinding.progressBar.visibility = View.VISIBLE
+                dataBinding.noDataAvailable.visibility = View.VISIBLE
+            })
+
+           /* dataBinding.noDataAvailable.visibility = when (state.status) {
+                Status.ERROR -> View.VISIBLE
+                else -> View.GONE
+            }
+
+            state.data?.let {
+                if (state.status == Status.SUCCESS) {
+                }
+            }*/
+        }
+  /*  viewModel.breeds.observe(viewLifecycleOwner) { state->
         when (state.status) {
             Status.SUCCESS -> {
                 state.data?.let { setBreedData(it) }
+                dataBinding.progressBar.visibility = View.GONE
+
             }
             Status.LOADING -> {
+                dataBinding.progressBar.visibility = View.VISIBLE
             }
             Status.ERROR -> {
-
+                dataBinding.noDataAvailable.visibility = View.VISIBLE
             }
         }
 
-    }
+    }*/
 }
 
-private fun setImages(data: BreedImage) {
-    if (data != null) {
-
-        Glide.with(requireActivity())
-            .load(data.url)
-            .circleCrop()
-            .into(dataBinding.catImage);
+    private fun setImages(breedImage: BreedImage?) {
+        breedImage?.let {
+            Glide.with(requireActivity()).load(it.url)
+                .circleCrop()
+                .into(dataBinding.catImage)
+        }
     }
 
-}
 private fun setBreedData(data: List<Breed>) {
-    if (data != null && data.isNotEmpty()) {
-        dataBinding.breed = data[0]
-
+    data.firstOrNull()?.let {
+        dataBinding.breed = it
     }
 }
 

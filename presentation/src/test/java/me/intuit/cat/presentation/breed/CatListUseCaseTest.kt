@@ -10,7 +10,9 @@ import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.runTest
 import me.intuit.cat.data.api.NetworkService
 import me.intuit.cat.data.local.AppDatabase
-import me.intuit.cat.data.repository.BreedsRepositoryImpl
+import me.intuit.cat.data.repository.BreedsRemoteMediator
+import me.intuit.cat.data.repository.BreedsRepo
+import me.intuit.cat.data.repository.LocalDataSource
 import me.intuit.cat.data.repository.RemoteDataSource
 import me.intuit.cat.domain.usecase.GetBreedsListUseCase
 import okhttp3.mockwebserver.MockResponse
@@ -32,6 +34,12 @@ class CatListUseCaseTest {
     private lateinit var networkService: NetworkService
     @Mock
     private lateinit var remoteDatasource: RemoteDataSource
+
+    @Mock
+    private lateinit var localDataSource: LocalDataSource
+
+    @Mock
+    private lateinit var remoteMediator: BreedsRemoteMediator
     private lateinit var mockWebServer: MockWebServer
     private lateinit var db: AppDatabase
     @OptIn(ExperimentalPagingApi::class)
@@ -51,7 +59,7 @@ class CatListUseCaseTest {
         networkService= retrofit.create(NetworkService::class.java)
 
 
-        val repository = BreedsRepositoryImpl(networkService,remoteDatasource, db)
+        val repository = BreedsRepo(remoteDatasource,localDataSource,remoteMediator )
 
         useCase = GetBreedsListUseCase(repository)
     }

@@ -11,7 +11,7 @@ import javax.inject.Singleton
 class GetBreedsListUseCase @Inject constructor(private val catBreedsRepository: BreedsRepository) {
 
      operator fun invoke(limit:Int, page:Int): Flow<PagingData<BreedImage>> {
-        return catBreedsRepository.getBreedsImagesList()
+        return catBreedsRepository.getBreedsImageDirectlyFromDB()
     }
 
 }

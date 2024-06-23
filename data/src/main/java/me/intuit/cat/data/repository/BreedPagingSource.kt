@@ -5,7 +5,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import me.intuit.cat.data.local.entity.mapToDomain
 import me.intuit.cat.data.api.NetworkService
-import me.intuit.cat.data.repository.BreedsRepositoryImpl.Companion.DEFAULT_PAGE_INDEX
+import me.intuit.cat.data.repository.BreedsRepo.Companion.DEFAULT_PAGE_INDEX
 import me.intuit.cat.domain.model.BreedImage
 
 import retrofit2.HttpException

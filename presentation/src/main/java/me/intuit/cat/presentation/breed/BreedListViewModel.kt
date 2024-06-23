@@ -21,7 +21,7 @@ import me.intuit.cat.presentation.base.BaseViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class BreedListViewModel @Inject constructor(private val getBreedsListUseCase: GetBreedsListUseCase,
+class BreedListViewModel @Inject constructor(
                                              private val getBreedsImagesFromDBUseCase: GetBreedsFromDBUseCases,
                                              private val networkHelper: NetworkHelper
 ) :

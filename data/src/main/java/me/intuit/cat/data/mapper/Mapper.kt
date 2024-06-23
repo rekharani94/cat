@@ -11,6 +11,7 @@ fun Breed.toBreedEntity(): BreedEntity {
     return BreedEntity(
         rid = 0,
         id = id,
+        imageId =imageId,
         description = description,
         origin = origin,
         temperament = temperament,
@@ -25,6 +26,7 @@ fun BreedImage.toBreedImageEntity(): BreedImageEntity {
         rid= 0,
         id = id,
         url = url,
+        breeds = breeds,
     )
 }
 fun List<BreedImage>.toBreedEntityList(): List<BreedImageEntity> {
@@ -51,4 +53,6 @@ fun List<BreedEntity>.toDomainList(): List<Breed> {
         it.toDomain()
     }
 }
+
+
 

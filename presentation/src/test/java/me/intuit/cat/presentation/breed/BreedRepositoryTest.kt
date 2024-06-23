@@ -2,6 +2,7 @@ package me.intuit.cat.presentation.breed
 
 import android.content.Context
 import androidx.paging.ExperimentalPagingApi
+import androidx.paging.RemoteMediator
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -12,7 +13,10 @@ import kotlinx.coroutines.flow.first
 import me.intuit.cat.data.api.NetworkService
 import me.intuit.cat.data.local.AppDatabase
 import me.intuit.cat.data.local.entity.BreedDto
-import me.intuit.cat.data.repository.BreedsRepositoryImpl
+import me.intuit.cat.data.local.entity.BreedImageDto
+import me.intuit.cat.data.repository.BreedsRemoteMediator
+import me.intuit.cat.data.repository.BreedsRepo
+import me.intuit.cat.data.repository.LocalDataSource
 import me.intuit.cat.data.repository.RemoteDataSource
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -41,7 +45,14 @@ class BreedRepositoryTest {
     lateinit var remoteDataSource: RemoteDataSource
 
     @Mock
+    lateinit var localDataSource: LocalDataSource
+
+    @Mock
     lateinit var networkService: NetworkService
+
+    @OptIn(ExperimentalPagingApi::class)
+    @Mock
+    lateinit var remoteMediator: BreedsRemoteMediator
     @Before
     fun setupRepository() {
 
@@ -64,13 +75,12 @@ class BreedRepositoryTest {
 
         val mistbreed = BreedDto("01", "amaerican mist","beautiful cat","america",
             "naughty",0,"")
-        val portuegebreed = BreedDto("02", "portuegebreed","beautiful cat","america",
-            "naughty",0,"")
-        Mockito.`when`(networkService.breeds(0,20)).thenReturn(listOf(mistbreed,portuegebreed))
-       var result =  BreedsRepositoryImpl(networkService,remoteDataSource,db)
-        var breedlist = result.getBreeds("2hjk").first()
+        val portuegebreed = BreedImageDto("02", "portuegebreed", listOf(mistbreed))
+        Mockito.`when`(networkService.getBreedImagesList(0,20,true)).thenReturn(listOf(portuegebreed))
+       var result =  BreedsRepo(remoteDataSource,localDataSource,remoteMediator)
+        var breedlist = result.getBreedsImage().first()
 
-        assertEquals(2,breedlist.size)
+        assertEquals(1,breedlist)
 
         Assert.assertNotNull(result)
     }

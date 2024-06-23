@@ -9,11 +9,11 @@ import me.intuit.cat.data.api.NetworkService
 import me.intuit.cat.data.local.AppDatabase
 import me.intuit.cat.data.repository.BreedsRemoteMediator
 
-import me.intuit.cat.domain.repository.BreedsRepository
 import me.intuit.cat.data.repository.BreedsDataSource
-import me.intuit.cat.data.repository.BreedsRepositoryImpl
+import me.intuit.cat.data.repository.BreedsRepo
 import me.intuit.cat.data.repository.LocalDataSource
 import me.intuit.cat.data.repository.RemoteDataSource
+import me.intuit.cat.domain.repository.BreedsRepository
 import javax.inject.Singleton
 
 @Module
@@ -29,12 +29,6 @@ class RepositoryModule {
         return RemoteDataSource(apiService)
     }
 
-   /* @Provides
-    @Singleton
-    fun provideBreedDao(apiService: NetworkService): BreedsDataSource.Remote {
-        return RemoteDataSource(apiService)
-    }
-*/
     @Provides
     @Singleton
     fun provideMovieLocalDataSource(
@@ -53,33 +47,15 @@ class RepositoryModule {
         return BreedsRemoteMediator( breedRemoteDataSource,appDatabase)
     }
 
-
-    /*@Provides
-    @Singleton
-    fun provideCatsRepository(networkService: CatsRepositoryImpl,databaseService:DatabaseService): CatsBreedsRepository {
-        return CatsRepositoryImpl(networkService,databaseService)
-    }*/
-
-  /*  @Provides
+    @Provides
     @Singleton
     fun provideRepositoryRepository(
         movieRemote: BreedsDataSource.Remote,
         movieLocal: BreedsDataSource.Local,
         movieRemoteMediator: BreedsRemoteMediator,
-    ): CatsBreedsRepository {
-        return CatsRepositoryImpl(movieRemote, movieLocal, movieRemoteMediator)
-    }*/
-
-    @OptIn(ExperimentalPagingApi::class)
-    @Provides
-    @Singleton
-    fun provideBreedsRepository(
-        remoteSource: BreedsDataSource.Remote,
-        apiService: NetworkService,
-        appDaDatabase: AppDatabase,
-        localDataSource: BreedsDataSource.Local
     ): BreedsRepository {
-            return BreedsRepositoryImpl(apiService,remoteSource,appDaDatabase)
+        return BreedsRepo(movieRemote, movieLocal, movieRemoteMediator)
     }
+
 
 }

@@ -58,7 +58,7 @@ class BreedsListFragment : Fragment() {
     }
     private fun subscribeUI(adapter: BreedsListdapter) {
 
-        lifecycleScope.launch {
+       /* lifecycleScope.launch {
             breedsViewModel.fetchBreeds().distinctUntilChanged().collectLatest {
                 adapter.submitData(it)
             }
@@ -72,6 +72,26 @@ class BreedsListFragment : Fragment() {
                     binding.noInternet.visibility=View.VISIBLE
                 }
             }
+        }*/
+        lifecycleScope.launch {
+            // Collect breed data and submit to adapter
+            breedsViewModel.fetchBreeds()
+                .distinctUntilChanged()
+                .collectLatest {
+                    adapter.submitData(it)
+                }
+
+            // Observe database state changes and update UI accordingly
+            breedsViewModel.dbstate.observe(viewLifecycleOwner) { isOffline ->
+                binding.progressBar.visibility = if (isOffline) View.VISIBLE else View.GONE
+                binding.tvError.visibility = if (isOffline) View.VISIBLE else View.GONE
+                binding.btnRetry.visibility = if (isOffline) View.VISIBLE else View.GONE
+                binding.rvBreeds.visibility = if (isOffline) View.GONE else View.VISIBLE
+                binding.noInternet.visibility = if (isOffline) View.VISIBLE else View.GONE
+            }
+
+            // Trigger initial fetch of database state
+            breedsViewModel.fetchDBstate()
         }
 
         breedsViewModel.networkState.observe(viewLifecycleOwner){

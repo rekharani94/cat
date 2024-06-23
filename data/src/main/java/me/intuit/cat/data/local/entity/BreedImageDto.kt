@@ -1,6 +1,7 @@
 package me.intuit.cat.data.local.entity
 
 import com.google.gson.annotations.SerializedName
+import me.intuit.cat.domain.model.Breed
 import me.intuit.cat.domain.model.BreedImage
 import java.io.Serializable
 
@@ -9,6 +10,8 @@ data class BreedImageDto(
     var id: String,
     @SerializedName("url")
     var url: String,
+    @SerializedName("breeds")
+    var breeds: List<BreedDto>
 
 ) : Serializable {
 
@@ -17,7 +20,8 @@ data class BreedImageDto(
 fun BreedImageDto.toDomain(): BreedImage {
     return BreedImage(
         id = id,
-        url = url
+        url = url,
+        breeds = breeds.mapToDomain()
     )
 }
 

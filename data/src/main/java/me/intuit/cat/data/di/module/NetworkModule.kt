@@ -95,5 +95,4 @@ class NetworkModule {
         }*/
 
 
-    //https://api.thecatapi.com/v1/breeds/:breed_id
 }
