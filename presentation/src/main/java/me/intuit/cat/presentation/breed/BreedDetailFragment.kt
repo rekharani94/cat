@@ -1,9 +1,12 @@
 package me.intuit.cat.presentation.breed
 
+import android.animation.ObjectAnimator
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.animation.doOnEnd
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -27,6 +30,10 @@ class BreedDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
        dataBinding = FragmentBreedDetailBinding.inflate(inflater)
+        requireActivity().actionBar?.setDisplayHomeAsUpEnabled(true);
+       /*dataBinding.attriLayout.setOnClickListener {
+           animate(true)
+       }*/
         initMembers()
         return dataBinding.root
     }
@@ -82,6 +89,7 @@ class BreedDetailFragment : Fragment() {
             Glide.with(requireActivity()).load(it.url)
                 .circleCrop()
                 .into(dataBinding.catImage)
+
         }
     }
 
@@ -90,6 +98,24 @@ private fun setBreedData(data: List<Breed>) {
         dataBinding.breed = it
     }
 }
+
+    private fun animate(reverse: Boolean = false) {
+        val colorTo = if (!reverse) Color.WHITE else Color.TRANSPARENT
+
+        ObjectAnimator.ofArgb(dataBinding.attriLayout, "strokeColor", colorTo).apply {
+            duration = 300
+            addUpdateListener {
+                dataBinding.attriLayout.invalidate()
+            }
+
+            if (!reverse) {
+                doOnEnd {
+                    animate(reverse = true)
+                }
+            }
+            start()
+        }
+    }
 
 }
 

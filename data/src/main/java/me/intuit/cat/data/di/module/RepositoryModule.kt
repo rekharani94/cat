@@ -13,6 +13,7 @@ import me.intuit.cat.data.repository.BreedsDataSource
 import me.intuit.cat.data.repository.BreedsRepo
 import me.intuit.cat.data.repository.LocalDataSource
 import me.intuit.cat.data.repository.RemoteDataSource
+import me.intuit.cat.data.utils.NetworkHelper
 import me.intuit.cat.domain.repository.BreedsRepository
 import javax.inject.Singleton
 
@@ -53,8 +54,9 @@ class RepositoryModule {
         movieRemote: BreedsDataSource.Remote,
         movieLocal: BreedsDataSource.Local,
         movieRemoteMediator: BreedsRemoteMediator,
+        networkHelper: NetworkHelper,
     ): BreedsRepository {
-        return BreedsRepo(movieRemote, movieLocal, movieRemoteMediator)
+        return BreedsRepo(movieRemote, movieLocal, movieRemoteMediator,networkHelper)
     }
 
 

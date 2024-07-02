@@ -32,4 +32,6 @@ interface BreedImageDao {
         deleteAll()
         return insertAll(breeds)
     }
+    @Query("DELETE FROM breed_image WHERE timestamp < :threshold")
+     fun deleteOutdatedBreeds(threshold: Long)
 }

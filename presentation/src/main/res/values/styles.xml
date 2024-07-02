@@ -68,12 +68,19 @@
         <item name="android:letterSpacing" tools:ignore="NewApi">0.025</item>
         <item name="android:fontFamily">@font/roboto_thin</item>
     </style>
+    <style name="normal_text_roboto_new">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorGray</item>
+        <item name="android:letterSpacing" tools:ignore="NewApi">0.025</item>
+        <item name="android:fontFamily">@font/roboto_thin</item>
+    </style>
 
     <style name="title_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">24sp</item>
-        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textColor">@color/colorGray</item>
         <item name="android:letterSpacing" tools:ignore="NewApi">0.025</item>
         <item name="android:fontFamily">@font/font_family</item>
     </style>

@@ -65,4 +65,6 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.48")
     debugImplementation ("com.squareup.leakcanary:leakcanary-android:$leakcanary_version")
     releaseImplementation ("com.squareup.leakcanary:leakcanary-android-no-op:$leakcanary_version")
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
 }

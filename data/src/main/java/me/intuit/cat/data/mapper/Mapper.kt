@@ -21,17 +21,19 @@ fun Breed.toBreedEntity(): BreedEntity {
     )
 }
 
-fun BreedImage.toBreedImageEntity(): BreedImageEntity {
+fun BreedImage.toBreedImageEntity(page:Int): BreedImageEntity {
     return BreedImageEntity(
         rid= 0,
         id = id,
         url = url,
         breeds = breeds,
+        timestamp = System.currentTimeMillis(),
+        page=page
     )
 }
-fun List<BreedImage>.toBreedEntityList(): List<BreedImageEntity> {
+fun List<BreedImage>.toBreedEntityList(page:Int): List<BreedImageEntity> {
     return this.map {
-        it.toBreedImageEntity()
+        it.toBreedImageEntity(page)
     }
 }
 

@@ -9,32 +9,310 @@
         name="breed"
         type="me.intuit.cat.domain.model.Breed" />
     </data>
+  <!-- <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorDarkGray"
+        tools:context=".MainActivity">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:contentScrim="@color/purple_500"
+                app:title="Burger Combo"
+
+                android:background="@color/black"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                android:id="@+id/collapsing_toolbar">
+
+               &lt;!&ndash; <ImageView
+                    android:layout_width="320dp"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginBottom="30dp"
+                    android:src="@drawable/bg_splash"
+                    android:layout_gravity="center|end"
+                    app:layout_collapseMode="parallax"/>&ndash;&gt;
+
+
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                    app:layout_collapseMode="pin"/>
+
+
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_wave"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:cardCornerRadius="10dp"
+                android:padding="4dp"
+                android:background="@color/black"
+
+                app:cardElevation="10dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:background="@color/black"
+
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:background="@drawable/ic_wave"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:visibility="invisible"/>
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/catImage"
+                        android:layout_width="180dp"
+                        android:layout_height="180dp"
+                        android:layout_marginTop="150dp"
+                        android:elevation="5dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/imageView3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/imageView3" />
+
+                    <TextView
+                        android:id="@+id/txtName"
+                        style="@style/title_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:maxLength="16"
+                        android:text="@{breed.name}"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/catImage" />
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        style="@style/title_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="18dp"
+                        android:text="@string/description"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtTemperament" />
+
+                    <TextView
+                        android:id="@+id/txtDescription"
+                        style="@style/normal_text_roboto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:gravity="start"
+                        android:text="@{breed.description}"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/textView5"
+                        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/txtCountryCode"
+                        style="@style/normal_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@{breed.origin}"
+                        app:chipIcon="@drawable/ic_earth"
+                        app:layout_constraintStart_toStartOf="@+id/txtName"
+                        android:theme="@style/Theme.MaterialComponents.DayNight"
+                        app:layout_constraintTop_toBottomOf="@+id/txtName" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/txtTemperament"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:clickable="false"
+                        android:text="@{breed.temperament}"
+                        app:chipIcon="@drawable/ic_cat"
+                        android:theme="@style/Theme.MaterialComponents.DayNight"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/txtName"
+                        app:layout_constraintTop_toBottomOf="@+id/txtCountryCode" />
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        style="@style/title_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="18dp"
+                        android:text="@string/wikipedia"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/textWikipediaUrl"
+                        style="@style/normal_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:autoLink="web"
+                        android:backgroundTint="@color/textColor"
+                        android:linksClickable="true"
+                        android:text="@{breed.wikipedia_url}"
+                        android:textColor="@color/white"
+                        android:textColorLink="@color/white"
+                        android:theme="@style/Theme.MaterialComponents.DayNight"
+                        app:layout_constraintStart_toStartOf="@+id/textView6"
+                        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/no_data_available"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:text="@string/no_data_available"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_height="wrap_content"/>
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:text="@string/no_data_available"
+                        android:visibility="gone"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+
+          &lt;!&ndash;  <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="30dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="dummytext"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>&ndash;&gt;
+
+        </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:baselineAlignBottom="false"
+            android:clickable="true"
+            android:src="@drawable/ic_sort_a_z"
+            app:fabSize="normal"
+            app:layout_anchor="@id/appbar"
+            app:layout_anchorGravity="end|bottom"
+            android:layout_marginRight="16dp"
+            android:backgroundTint="#F1C68C"/>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>-->
     <ScrollView
         android:layout_width="match_parent"
+        android:background="@color/black"
         android:layout_height="match_parent">
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="15dp"
+            android:padding="4dp"
+            android:elevation="20dp"
+            android:background="@color/colorPrimary"
+            app:cardElevation="20dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:background="@color/colorPrimary"
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:adjustViewBounds="true"
                 android:background="@drawable/ic_wave"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="visible"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/catImage"
-                android:layout_width="180dp"
-                android:layout_height="180dp"
+                android:layout_width="250dp"
+                android:layout_height="200dp"
                 android:layout_marginTop="150dp"
+                android:elevation="20dp"
+                app:civ_border_width="@dimen/margin_xsmall"
+                app:civ_border_color="@color/backgroundGrey"
+                app:civ_border_overlay="true"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/imageView3" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            app:cardBackgroundColor="@color/backgroundGrey"
+            app:cardCornerRadius="10dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:id="@+id/attriLayout"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:layout_marginBottom="@dimen/margin_xsmall"
+            app:layout_constraintTop_toBottomOf="@+id/catImage"
+            app:cardElevation="10dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                >
 
             <TextView
                 android:id="@+id/txtName"
@@ -47,35 +325,7 @@
                 android:textSize="26sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/catImage" />
-
-            <TextView
-                android:id="@+id/textView5"
-                style="@style/title_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="18dp"
-                android:text="@string/description"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtTemperament" />
-
-            <TextView
-                android:id="@+id/txtDescription"
-                style="@style/normal_text_roboto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:gravity="start"
-                android:text="@{breed.description}"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/textView5"
-                app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
-
+                 />
             <com.google.android.material.chip.Chip
                 android:id="@+id/txtCountryCode"
                 style="@style/normal_text"
@@ -84,36 +334,106 @@
                 android:layout_marginStart="8dp"
                 android:text="@{breed.origin}"
                 app:chipIcon="@drawable/ic_earth"
+                app:layout_constraintStart_toStartOf="@+id/txtName"
                 android:theme="@style/Theme.MaterialComponents.DayNight"
-                app:layout_constraintBottom_toBottomOf="@+id/txtName"
-                app:layout_constraintStart_toEndOf="@+id/txtName"
-                app:layout_constraintTop_toTopOf="@+id/txtName" />
+                app:layout_constraintTop_toBottomOf="@+id/txtName" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/txtTemperament"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                android:maxWidth="500dp"
                 android:clickable="false"
                 android:text="@{breed.temperament}"
                 app:chipIcon="@drawable/ic_cat"
+                android:layout_marginEnd="@dimen/margin_xsmall"
                 android:theme="@style/Theme.MaterialComponents.DayNight"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/txtName"
-                app:layout_constraintTop_toBottomOf="@+id/txtCountryCode" />
 
+                app:layout_constraintTop_toBottomOf="@+id/txtCountryCode" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            app:cardBackgroundColor="@color/backgroundGrey"
+            app:cardCornerRadius="10dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:id="@+id/descLayout"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:layout_marginBottom="@dimen/margin_xsmall"
+           app:layout_constraintTop_toBottomOf="@+id/attriLayout"
+            app:cardElevation="10dp">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                >
+
+            <TextView
+                android:id="@+id/textView5"
+                style="@style/title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/description"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_marginTop="15dp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/txtDescription"
+                 />
+
+                <TextView
+                    android:id="@+id/txtDescription"
+                    style="@style/normal_text_roboto_new"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:gravity="start"
+                    android:text="@{breed.description}"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView5"
+                    app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:id="@+id/wikiLayout"
+                app:cardBackgroundColor="@color/backgroundGrey"
+                app:cardCornerRadius="10dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:layout_marginTop="@dimen/margin_xsmall"
+                android:layout_marginBottom="@dimen/margin_large"
+                app:layout_constraintTop_toBottomOf="@+id/descLayout"
+                app:cardElevation="10dp">
+          <androidx.constraintlayout.widget.ConstraintLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="@dimen/margin_large"
+              >
             <TextView
                 android:id="@+id/textView6"
                 style="@style/title_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/wikipedia"
                 android:textSize="22sp"
                 android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtDescription" />
+          />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/textWikipediaUrl"
@@ -127,9 +447,12 @@
                 android:text="@{breed.wikipedia_url}"
                 android:textColor="@color/white"
                 android:textColorLink="@color/white"
+                android:layout_gravity="bottom"
                 android:theme="@style/Theme.MaterialComponents.DayNight"
                 app:layout_constraintStart_toStartOf="@+id/textView6"
                 app:layout_constraintTop_toBottomOf="@+id/textView6" />
+          </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
             <TextView
                 android:layout_width="wrap_content"
                 android:id="@+id/no_data_available"
@@ -153,6 +476,7 @@
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
 
     </ScrollView>
 </layout>

@@ -48,7 +48,7 @@ class BreedsRemoteMediator @Inject constructor(
             val keys:ArrayList<BreedRemoteKeyDbData> =  arrayListOf()
             val breedsEntity:ArrayList<BreedImageEntity> =  arrayListOf()
           response.onSuccess {
-              breedsEntity.addAll(it.toBreedEntityList())
+              breedsEntity.addAll(it.toBreedEntityList(page))
 
           }
 
@@ -63,7 +63,7 @@ class BreedsRemoteMediator @Inject constructor(
                 }
 
                     response.onSuccess {
-                        it.toBreedEntityList().forEach {
+                        it.toBreedEntityList(page).forEach {
                         val prevKey = if (page == DEFAULT_PAGE_INDEX) null else page - 1
                         val nextKey = if (isEndOfList) null else page + 1
                         keys.add( BreedRemoteKeyDbData(id = it.rid.toInt(), prevPage  = prevKey, nextPage = nextKey))

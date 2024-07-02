@@ -4,21 +4,37 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy
-
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import me.intuit.cat.data.utils.AppConstant
 import me.intuit.cat.data.utils.NetworkHelper
+import me.intuit.cat.data.utils.generic.ConstantsErrorHandler
+import me.intuit.cat.domain.model.BreedImage
+import me.intuit.cat.presentation.base.UiState
+import me.intuit.cat.presentation.common.BreedUiState
 import me.intuit.cat.presentation.common.FooterAdapter
 import me.intuit.cat.presentation.databinding.FragmentBreedListBinding
+import me.intuit.cat.presentation.utils.ErrorConstants
+import me.intuit.cat.presentation.utils.collect
+import me.intuit.cat.presentation.utils.executeWithAction
+import java.util.Collections
+import java.util.Random
+
 import javax.inject.Inject
+
+
 @ExperimentalPagingApi
 @AndroidEntryPoint
 class BreedsListFragment : Fragment() {
@@ -31,7 +47,7 @@ class BreedsListFragment : Fragment() {
     @Inject
     lateinit var networkHelper: NetworkHelper
 
-
+    lateinit var list:PagingData<BreedImage>
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -39,6 +55,7 @@ class BreedsListFragment : Fragment() {
     ): View? {
         binding = FragmentBreedListBinding.inflate(inflater, container, false)
         initMembers()
+        setListener()
 
         subscribeUI(adapter)
 
@@ -49,86 +66,106 @@ class BreedsListFragment : Fragment() {
 
 
     private fun initMembers() {
+
         binding.rvBreeds.layoutManager  = GridLayoutManager(context,2)
         adapter = BreedsListdapter()
         binding.rvBreeds.adapter = adapter
+        setAdapter()
         adapter.stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
         binding?.rvBreeds?.adapter = adapter.withLoadStateFooter(FooterAdapter(adapter::retry))
+       /* binding.container.setOnRefreshListener {
 
+            // on below line we are setting is refreshing to false.
+            binding.container.isRefreshing = false
+
+            // on below line we are shuffling our list using ra
+            // on below line we are notifying adapter
+            // that data has changed in recycler view.
+            adapter.refresh()
+        }*/
     }
     private fun subscribeUI(adapter: BreedsListdapter) {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                breedsViewModel.uiState.collectLatest { state ->
+                    when (state) {
+                        is UiState.Error -> {
+                            handleErrorUI(state.message)
+                        }
+
+                        is UiState.Loading -> state.toString()
+                        is UiState.Success -> {
+                            list = state.data
+                            adapter.submitData(state.data)
+                            binding.imgNoDatafound.visibility = View.GONE
+                            binding.imgNoInternet.visibility = View.GONE
+                        }
+                    }
+                }
+
+
+            }
+        }
 
        /* lifecycleScope.launch {
-            breedsViewModel.fetchBreeds().distinctUntilChanged().collectLatest {
-                adapter.submitData(it)
-            }
-            breedsViewModel.fetchDBstate()
-            breedsViewModel.dbstate.observe(viewLifecycleOwner){
-                if(it){
-                    binding.progressBar.visibility=View.VISIBLE
-                    binding.tvError.visibility=View.VISIBLE
-                    binding.btnRetry.visibility=View.VISIBLE
-                    binding.rvBreeds.visibility=View.GONE
-                    binding.noInternet.visibility=View.VISIBLE
-                }
+            adapter.loadStateFlow.collectLatest { loadStates ->
+                binding.progressBar.isVisible = loadStates.refresh is LoadState.Loading
+               binding.btnRetry.isVisible = loadStates.refresh !is LoadState.Loading
+                binding.tvError.isVisible = loadStates.refresh is LoadState.Error
             }
         }*/
-        lifecycleScope.launch {
-            // Collect breed data and submit to adapter
-            breedsViewModel.fetchBreeds()
-                .distinctUntilChanged()
-                .collectLatest {
-                    adapter.submitData(it)
-                }
 
-            // Observe database state changes and update UI accordingly
-            breedsViewModel.dbstate.observe(viewLifecycleOwner) { isOffline ->
-                binding.progressBar.visibility = if (isOffline) View.VISIBLE else View.GONE
-                binding.tvError.visibility = if (isOffline) View.VISIBLE else View.GONE
-                binding.btnRetry.visibility = if (isOffline) View.VISIBLE else View.GONE
-                binding.rvBreeds.visibility = if (isOffline) View.GONE else View.VISIBLE
-                binding.noInternet.visibility = if (isOffline) View.VISIBLE else View.GONE
+
+    }
+
+    private fun handleErrorUI(message: String) {
+        when (message) {
+            ErrorConstants.EXCEPTION_MESSAGE -> {
+                binding.imgNoDatafound.visibility = View.VISIBLE
+
             }
 
-            // Trigger initial fetch of database state
-            breedsViewModel.fetchDBstate()
-        }
-
-        breedsViewModel.networkState.observe(viewLifecycleOwner){
-            if(it) {
-                setUpViews()
+            ErrorConstants.NO_CONNECTION_INTERNET_MESSAGE -> {
+                binding.imgNoInternet.visibility = View.VISIBLE
             }
-            else {
-                binding.progressBar.visibility=View.VISIBLE
-                binding.tvError.visibility=View.VISIBLE
-                binding.btnRetry.visibility=View.VISIBLE
-                binding.noInternet.visibility=View.VISIBLE
+
+
+            ErrorConstants.NO_DATA_AVAILABLE_IN_DB -> {
+                binding.imgNoDatafound.visibility = View.VISIBLE
             }
         }
+    }
 
+
+    private fun setListener() {
+        binding.btnRetry.setOnClickListener { adapter.retry() }
     }
     private fun setAdapter() {
-      /*  collect(flow = adapter.loadStateFlow
+        collect(flow = adapter.loadStateFlow
             .distinctUntilChangedBy { it.source.refresh }
             .map { it.refresh },
-            action = ::setUiState
-        )*/
-        //binding?.rvBreeds?.adapter = adapter.withLoadStateFooter(FooterAdapter(adapter::retry))
+            action = ::setUsersUiState
+        )
+        binding.rvBreeds.adapter = adapter.withLoadStateHeaderAndFooter(
+                header = FooterAdapter(adapter::retry),
+                footer = FooterAdapter(adapter::retry)
+            )
     }
 
-    private fun setUiState(loadState: LoadState) {
-       /* binding?.executeWithAction {
-            BreedUiState(loadState)
-        }*/
-    }
-
-    private fun setUpViews() {
-        binding.progressBar.visibility=View.GONE
-        binding.rvBreeds.visibility=View.VISIBLE
-        binding.tvError.visibility=View.GONE
-        binding.btnRetry.visibility=View.GONE
-        binding.noInternet.visibility=View.GONE
+    private fun setUsersUiState(loadState: LoadState) {
+        binding.executeWithAction {
+            uiState = BreedUiState(loadState)
         }
-
-
+    }
 }
+/*lifecycleScope.launch {
+            breedsViewModel.networkState.observe(viewLifecycleOwner) { isOnline ->
+                // binding.progressBar.visibility = if (!isOnline) View.VISIBLE else View.GONE
+                // binding.imgNoInternet.visibility = if (!isOnline) View.VISIBLE else View.GONE
+                binding.noInternet.visibility = if (!isOnline) View.VISIBLE else View.GONE
+
+                *//*binding.btnRetry.visibility = if (!isOnline) View.VISIBLE else View.GONE
+                binding.rvBreeds.visibility = if (!isOnline) View.GONE else View.VISIBLE
+                binding.noInternet.visibility = if (!isOnline) View.VISIBLE else View.GONE*//*
+
+            }*/

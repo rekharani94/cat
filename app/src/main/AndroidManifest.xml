@@ -19,9 +19,16 @@
         tools:targetApi="31">
         <activity
             android:name=".presentation.breed.CatsListActivity"
-            android:exported="true"
-            tools:node="merge"
             android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
+
+        </activity>
+        <activity
+            android:name=".presentation.breed.SplashActivity"
+            tools:node="merge"
+            android:exported="true"
+           tools:replace="android:exported"
+           android:theme="@style/Theme.AppCompat.NoActionBar"
+           >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

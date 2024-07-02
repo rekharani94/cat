@@ -7,22 +7,25 @@
 
     <fragment
         android:id="@+id/breedListFragment"
-        android:label="BreedsListFragment"
+        android:label="Cats"
         android:name="me.intuit.cat.presentation.breed.BreedsListFragment"
         tools:layout="@layout/fragment_breed_list">
         <action
             android:id="@+id/actionBreedList_to_BreedDetailFragment"
-            app:destination="@id/breedDetailFragment">
+            app:destination="@id/breedDetailFragment"
+            app:enterAnim="@anim/slide_down"
+            app:exitAnim="@anim/slide_up"
+            >
         </action>
 
     </fragment>
     <fragment
         android:id="@+id/breedDetailFragment"
-        android:label="BreedDetailFragment"
+        android:label="Persion"
         android:name="me.intuit.cat.presentation.breed.BreedDetailFragment"
         tools:layout="@layout/fragment_breed_detail">
         <argument
             android:name="breedImage"
-            app:argType="me.intuit.cat.domain.model.BreedImage"></argument>
+            app:argType="me.intuit.cat.domain.model.BreedImage" />
     </fragment>
 </navigation>

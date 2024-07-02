@@ -13,12 +13,14 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/black"
         >
         <TextView
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="@dimen/margin_large"
+            android:visibility="gone"
             android:background="@color/colorAccent"
             app:layout_constraintTop_toTopOf="parent"
             android:text="@string/no_internet_connection"
@@ -27,12 +29,14 @@
             android:id="@+id/noInternet"
             android:fontFamily="@font/fredoka_one_regular"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toTopOf="@id/rvBreeds"/>
+            app:layout_constraintBottom_toTopOf="@+id/rvBreeds"
+            />
+
        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvBreeds"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+           android:visibility="@{uiState.listVisibility}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,6 +47,8 @@
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="@{uiState.progressBarVisibility}"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,17 +60,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/retry"
+            android:visibility="@{uiState.errorVisibility}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
+         <com.airbnb.lottie.LottieAnimationView
+             android:layout_width="250dp"
+             android:layout_height="250dp"
+             android:id="@+id/imgNoDatafound"
+             app:layout_constraintBottom_toBottomOf="parent"
+             app:layout_constraintEnd_toEndOf="parent"
+             app:layout_constraintStart_toStartOf="parent"
+             app:layout_constraintTop_toTopOf="parent"
+             app:lottie_autoPlay="true"
+             app:lottie_loop="true"
+             android:visibility="gone"
+             app:lottie_rawRes="@raw/nointernet" />
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:id="@+id/imgNoInternet"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/noInternet"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/nointerneticon" />
         <TextView
             android:id="@+id/tvError"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:visibility="visible"
+            android:visibility="@{uiState.errorVisibility}"
             app:layout_constraintEnd_toEndOf="@+id/btnRetry"
             app:layout_constraintStart_toStartOf="@+id/btnRetry"
             app:layout_constraintTop_toBottomOf="@+id/btnRetry"

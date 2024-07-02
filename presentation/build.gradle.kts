@@ -66,6 +66,8 @@ dependencies {
     implementation("androidx.test:core-ktx:1.5.0")
     implementation("androidx.test.ext:junit-ktx:1.1.5")
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation("androidx.activity:activity:1.9.0")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     kapt("com.google.dagger:hilt-compiler:2.48")
     implementation("androidx.browser:browser:1.7.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
@@ -83,6 +85,10 @@ dependencies {
     implementation( "com.github.bumptech.glide:glide:4.12.0")
     annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 
+
+    // Use: def instead of val if you are not using Kotlin Gradle(.kts)
+
+    implementation("androidx.core:core-splashscreen:1.0.1")
     //retrofit
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
@@ -93,7 +99,12 @@ dependencies {
 
     //KotlinX Serializer
     implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
-
+   //gif player
+    implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.28")
+    //lottie
+    implementation ("com.airbnb.android:lottie:3.6.0")
+    //swipetorefreshlayout
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
     //Mockito
     testImplementation ("org.mockito:mockito-core:5.0.0")
     testImplementation ("org.mockito:mockito-inline:5.0.0")

@@ -7,6 +7,7 @@ import me.intuit.cat.data.mapper.toDomainList
 import me.intuit.cat.domain.model.Breed
 import me.intuit.cat.domain.model.BreedImage
 import java.io.Serializable
+import java.sql.Timestamp
 
 @Entity(tableName = "breed_image")
 data class BreedImageEntity(
@@ -15,6 +16,9 @@ data class BreedImageEntity(
     @ColumnInfo(name = "id")val id: String,
     @ColumnInfo(name = "url") val url: String,
     @ColumnInfo(name = "breeds") val breeds: List<Breed>,
+    @ColumnInfo(name = "timestamp") val timestamp: Long,
+    @ColumnInfo(name = "page") val page: Int,
+
 
     ): Serializable
 fun BreedImageEntity.toDomain() = BreedImage(

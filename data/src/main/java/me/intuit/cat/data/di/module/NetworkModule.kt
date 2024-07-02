@@ -9,10 +9,14 @@ import dagger.hilt.components.SingletonComponent
 import me.intuit.cat.data.api.NetworkService
 import me.intuit.cat.data.di.BaseUrl
 import me.intuit.cat.data.utils.AppConstant.API_KEY
+import me.intuit.cat.data.utils.CacheInterceptor
 import me.intuit.cat.data.utils.DefaultNetworkHelper
 import me.intuit.cat.data.utils.NetworkHelper
+import okhttp3.Cache
+import okhttp3.CacheControl
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -33,7 +37,7 @@ class NetworkModule {
 
     @Singleton
     @Provides
-     fun getRetrofit(@BaseUrl baseUrl: String, okHttpClient: OkHttpClient = getOkHttpClient()): NetworkService {
+     fun getRetrofit(@ApplicationContext context: Context,@BaseUrl baseUrl: String,networkHelper: NetworkHelper, okHttpClient: OkHttpClient = getOkHttpClient(networkHelper=networkHelper, context = context)): NetworkService {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
@@ -60,16 +64,27 @@ class NetworkModule {
             level = HttpLoggingInterceptor.Level.BODY
         }
     }
+
     @Singleton
     @Provides
      fun getOkHttpClient(
         okHttpLogger: HttpLoggingInterceptor = getHttpLogger(),
-        okHttpNetworkInterceptor: Interceptor = getOkHttpNetworkInterceptor()
-    ): OkHttpClient {
-        return OkHttpClient.Builder()
+        okHttpNetworkInterceptor: Interceptor = getOkHttpNetworkInterceptor(),
+       networkHelper: NetworkHelper,
+        @ApplicationContext context: Context
+        ): OkHttpClient {
+        return OkHttpClient.Builder().cache(Cache(context.cacheDir, (5 * 1024 * 1024).toLong()))
             .addInterceptor(okHttpLogger)
             .addInterceptor(okHttpNetworkInterceptor)
-
+            .addInterceptor(Interceptor { chain ->
+                val builder: Request.Builder = chain.request().newBuilder()
+                if (!networkHelper.isNetworkConnected()) {
+                    builder.cacheControl(CacheControl.FORCE_CACHE);
+                }
+                chain.proceed(builder.build());
+            })
+            .addNetworkInterceptor(
+                CacheInterceptor())
             .build()
     }
 

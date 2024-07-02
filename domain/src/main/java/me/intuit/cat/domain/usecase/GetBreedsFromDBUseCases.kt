@@ -10,7 +10,7 @@ data class GetBreedsFromDBUseCases
 @Inject constructor(
     private val repo: BreedsRepository
 ) {
-    suspend operator fun invoke(): Flow<PagingData<BreedImage>> {
+     operator fun invoke(): Flow<PagingData<BreedImage>> {
         return repo.getBreedsImage()
     }
 }

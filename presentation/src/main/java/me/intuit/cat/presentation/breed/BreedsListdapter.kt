@@ -2,11 +2,13 @@ package me.intuit.cat.presentation.breed
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.navigation.findNavController
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.bumptech.glide.Glide
 import me.intuit.cat.domain.model.BreedImage
 import me.intuit.cat.presentation.R
 import me.intuit.cat.presentation.databinding.BreedItemBinding
@@ -52,17 +54,29 @@ class BreedsListdapter @Inject constructor() : PagingDataAdapter<BreedImage, Rec
             binding.ivBreedImage.load(breedImage?.url){
                 placeholder(R.drawable.ic_cat)
             }
-            binding.root.setOnClickListener {
+            binding.tvCatName.text = breedImage?.breeds?.get(0)?.name
+            binding.btnViewMore.text = breedImage?.breeds?.get(0)?.name
+            binding.btnViewMore.startAnimation(AnimationUtils.loadAnimation(binding.root.context, R.anim.blink))
+            binding.btnViewMore.setOnClickListener {
                 breedImage?.let { image ->
-                    val direction=  BreedsListFragmentDirections.actionBreedListToBreedDetailFragment(
-                          image
-                      )
+                    val direction =
+                        BreedsListFragmentDirections.actionBreedListToBreedDetailFragment(
+                            image
+                        )
                     it.findNavController().navigate(direction)
-
                 }
             }
+                binding.root.setOnClickListener {
+                    breedImage?.let { image ->
+                        val direction =
+                            BreedsListFragmentDirections.actionBreedListToBreedDetailFragment(
+                                image
+                            )
+                        it.findNavController().navigate(direction)
 
-        }
+                    }
+                }
+            }
 
     }
 

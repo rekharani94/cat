@@ -1,23 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.cardview.widget.CardView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        app:cardCornerRadius="6dp"
-        app:cardElevation="6dp">
+        android:focusable="true"
+        app:cardBackgroundColor="@color/backgroundGrey"
+        app:cardCornerRadius="10dp"
+        android:foreground="?attr/selectableItemBackground"
+        android:clickable="true"
+        app:cardElevation="10dp">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivBreedImage"
-            android:layout_width="match_parent"
-            android:layout_height="180dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:contentDescription="@string/desc_breed"
             android:maxHeight="300dp"
+            android:layout_marginTop="25dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_cat_happy"
             android:scaleType="centerCrop"
+            android:layout_marginBottom="40dp"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/tvCatName"
+            tools:text="persian"
+            android:text="persian"
+            android:gravity="center"
+            android:textSize="14dp"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_gravity="bottom|left|center_vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:background="@color/black"
+            android:id="@+id/btnViewMore"
+            android:text="view more"
+            android:paddingLeft="7dp"
+            android:paddingRight="7dp"
+            android:textSize="12dp"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="4dp"
+            android:layout_marginRight="5dp"
+            android:layout_height="30dp"/>
 
     </androidx.cardview.widget.CardView>
 </layout>

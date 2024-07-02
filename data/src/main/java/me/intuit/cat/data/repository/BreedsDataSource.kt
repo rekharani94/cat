@@ -2,10 +2,8 @@ package me.intuit.cat.data.repository
 
 import androidx.paging.PagingSource
 
-import me.intuit.cat.data.local.entity.BreedEntity
 import me.intuit.cat.data.local.entity.BreedImageEntity
 import me.intuit.cat.data.local.entity.BreedRemoteKeyDbData
-import me.intuit.cat.domain.model.Breed
 import me.intuit.cat.domain.model.BreedImage
 import me.intuit.cat.domain.util.Result
 
@@ -19,10 +17,11 @@ interface BreedsDataSource {
         fun breedsImages(): PagingSource<Int, BreedImageEntity>
         suspend fun getBreedImages(): Result<List<BreedImage>>
         suspend fun insertBreedsImages(breedImages: BreedImage)
-        suspend fun insertBreedsImagesList(breedImages: List<BreedImage>)
+        suspend fun insertBreedsImagesList(breedImages: List<BreedImage>, page: Int)
         suspend fun getLastRemoteKey(): BreedRemoteKeyDbData?
         suspend fun saveRemoteKey(key: BreedRemoteKeyDbData)
         suspend fun clearBreeds()
+        suspend fun clearOutdatedBreeds(threshhold:Long)
         suspend fun clearRemoteKeys()
 
     }

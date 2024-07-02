@@ -74,12 +74,10 @@ private const val STARTING_PAGE_INDEX = 1
     }
 
 
-   /* override fun getRefreshKey(state: PagingState<Int, Breed>): Int? {
-        TODO("Not yet implemented")
-    }*/
-
     override fun getRefreshKey(state: PagingState<Int, BreedImage>): Int? {
-        TODO("Not yet implemented")
+        return state.anchorPosition?.let { anchorPosition ->
+            state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
+        }
     }
-
 }
