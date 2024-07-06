@@ -13,5 +13,7 @@ data class BreedRemoteKeyDbData(
     @ColumnInfo(name = "prevKey")
     var prevPage: Int?=0,
     @ColumnInfo(name = "nextKey")
-    var nextPage: Int?=0
+    var nextPage: Int?=0,
+    @ColumnInfo(name = "created_at")
+var createdAt: Long = System.currentTimeMillis()
 )

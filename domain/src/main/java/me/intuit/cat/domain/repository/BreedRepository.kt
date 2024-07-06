@@ -11,5 +11,5 @@ interface BreedsRepository {
     fun getBreedsImage(): Flow<PagingData<BreedImage>>
     fun getBreedsImageDirectlyFromDB(): Flow<PagingData<BreedImage>>
     suspend fun getImagesDirectlyFromDB(): Result<List<BreedImage>>
-    suspend fun sync(page: Int): Result<List<BreedImage>>
+    suspend fun sync(): Boolean
 }

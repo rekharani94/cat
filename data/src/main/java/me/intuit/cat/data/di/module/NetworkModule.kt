@@ -73,7 +73,7 @@ class NetworkModule {
        networkHelper: NetworkHelper,
         @ApplicationContext context: Context
         ): OkHttpClient {
-        return OkHttpClient.Builder().cache(Cache(context.cacheDir, (5 * 1024 * 1024).toLong()))
+        return OkHttpClient.Builder().cache(Cache(context.cacheDir, (2 * 1024 * 1024).toLong()))
             .addInterceptor(okHttpLogger)
             .addInterceptor(okHttpNetworkInterceptor)
             .addInterceptor(Interceptor { chain ->
@@ -108,6 +108,17 @@ class NetworkModule {
                 .build()
                 .create(NetworkService::class.java)
         }*/
-
+/*
+.cache(Cache(context.cacheDir, (5 * 1024 * 1024).toLong()))
+ .addInterceptor(Interceptor { chain ->
+                val builder: Request.Builder = chain.request().newBuilder()
+                if (!networkHelper.isNetworkConnected()) {
+                    builder.cacheControl(CacheControl.FORCE_CACHE);
+                }
+                chain.proceed(builder.build());
+            })
+            .addNetworkInterceptor(
+                CacheInterceptor())
+ */
 
 }

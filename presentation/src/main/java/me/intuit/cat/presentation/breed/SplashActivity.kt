@@ -15,22 +15,22 @@ class SplashActivity : AppCompatActivity() {
     lateinit var binding: ActivitySplashBinding
 
      var handler=   android.os.Handler()
-    var runnable:Runnable = Runnable{
+    /*var runnable:Runnable = Runnable{
         var intent=  Intent(this@SplashActivity, CatsListActivity::class.java)
         startActivity(intent)
         finish()
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+       /* if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getWindow().setFlags(
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
             );
-        }
-        handler.postDelayed(runnable, 3000)
+        }*/
+       /* handler.postDelayed(runnable, 3000)
         var topAnimation =
             AnimationUtils.loadAnimation(this, me.intuit.cat.presentation.R.anim.slide_down);
         var bottomAnimation =
@@ -38,7 +38,7 @@ class SplashActivity : AppCompatActivity() {
         var middleAnimation =
             AnimationUtils.loadAnimation(this, me.intuit.cat.presentation.R.anim.fade_in);
        binding.gifView.animation = topAnimation
-        binding.tvWelcome.animation = bottomAnimation
+        binding.tvWelcome.animation = bottomAnimation*/
 
 
 

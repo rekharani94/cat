@@ -13,7 +13,7 @@ import me.intuit.cat.data.local.entity.BreedImageEntity
 import me.intuit.cat.data.local.entity.BreedRemoteKeyDbData
 import me.intuit.cat.data.local.entity.BreedTypeConverters
 
-@Database(entities = [BreedImageEntity::class, BreedEntity::class, BreedRemoteKeyDbData::class], version = 15, exportSchema = false)
+@Database(entities = [BreedImageEntity::class, BreedEntity::class, BreedRemoteKeyDbData::class], version = 16, exportSchema = false)
 @TypeConverters(value = [BreedTypeConverters::class])
 abstract class AppDatabase : RoomDatabase() {
     abstract fun breedImageDao(): BreedImageDao

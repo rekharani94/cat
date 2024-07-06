@@ -18,30 +18,49 @@ import me.intuit.cat.data.repository.BreedsRepo.Companion.DEFAULT_PAGE_INDEX
 import me.intuit.cat.domain.util.onSuccess
 import java.io.IOException
 import java.io.InvalidObjectException
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 
-private const val MOVIE_STARTING_PAGE_INDEX = 1
 @OptIn(ExperimentalPagingApi::class)
 class BreedsRemoteMediator @Inject constructor(
     private val remote: BreedsDataSource.Remote,
     private val appDatabase: AppDatabase
 ) : RemoteMediator<Int, BreedImageEntity>() {
 
+   override suspend fun initialize(): InitializeAction {
+        val cacheTimeout = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
+    return withContext(Dispatchers.IO) {
+          if (System.currentTimeMillis() - (appDatabase.breedsRemoteKeyDao().getCreationTime() ?: 0) < cacheTimeout) {
+            return@withContext InitializeAction.SKIP_INITIAL_REFRESH
+         } else {
+            return@withContext InitializeAction.LAUNCH_INITIAL_REFRESH
+         }
+     }
+
+    }
   @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
   override suspend fun load(
         loadType: LoadType, state: PagingState<Int, BreedImageEntity>
     ): MediatorResult {
 
-        val pageKeyData = getKeyPageData(loadType, state)
-        val page = when (pageKeyData) {
-            is MediatorResult.Success -> {
-                return pageKeyData
-            }
-            else -> {
-                pageKeyData as Int
-            }
-        }
+      val page: Int = when (loadType) {
+          LoadType.REFRESH -> {
+              val remoteKeys = getClosestRemoteKey(state)
+              remoteKeys?.nextPage?.minus(1) ?: 1
+          }
+          LoadType.PREPEND -> {
+              val remoteKeys = getFirstRemoteKey(state)
+              val prevKey = remoteKeys?.prevPage
+              prevKey ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+          }
+          LoadType.APPEND -> {
+              val remoteKeys = getLastRemoteKey(state)
+              val nextKey = remoteKeys?.nextPage
+              nextKey ?: return MediatorResult.Success(endOfPaginationReached = remoteKeys != null)
+          }
+      }
+
 
       try {
             val response = remote.getBreedsImages(page, state.config.pageSize)
@@ -61,15 +80,15 @@ class BreedsRemoteMediator @Inject constructor(
                     appDatabase.breedsRemoteKeyDao() .clearRemoteKeys()
                     appDatabase.breedDao().deleteAll()
                 }
-
-                    response.onSuccess {
-                        it.toBreedEntityList(page).forEach {
-                        val prevKey = if (page == DEFAULT_PAGE_INDEX) null else page - 1
-                        val nextKey = if (isEndOfList) null else page + 1
+                val prevKey = if (page > 1) page - 1 else null
+                val nextKey = if (isEndOfList) null else page + 1
+                response.onSuccess {
+                    it.toBreedEntityList(page).map {
                         keys.add( BreedRemoteKeyDbData(id = it.rid.toInt(), prevPage  = prevKey, nextPage = nextKey))
 
                     }
-                    }
+                }
+
 
                 appDatabase.breedsRemoteKeyDao().insertAll(keys)
                 appDatabase.breedImageDao() .insertAll(breedsEntity)
@@ -86,8 +105,8 @@ class BreedsRemoteMediator @Inject constructor(
      * this returns the page key or the final end of list success result
      */
     suspend fun getKeyPageData(loadType: LoadType, state: PagingState<Int, BreedImageEntity>): Any? {
-        try {
-            when (loadType) {
+
+          return  when (loadType) {
                 LoadType.REFRESH -> {
                     var remoteKeys = getClosestRemoteKey(state)
                     remoteKeys?.nextPage?.minus(1) ?: DEFAULT_PAGE_INDEX
@@ -108,12 +127,7 @@ class BreedsRemoteMediator @Inject constructor(
                     remoteKeys?.prevPage
                 }
             }
-        }
-        catch (e:IOException) {
-            var remoteKeys = BreedRemoteKeyDbData(0,DEFAULT_PAGE_INDEX,1)
 
-        }
-        return 0
     }
 
     /**

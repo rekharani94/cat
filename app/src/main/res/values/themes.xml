@@ -5,13 +5,9 @@
     <!-- Splash Screen Theme. -->
     <style name="SplashScreenTheme" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/black</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_background</item>
-        <item name="windowSplashScreenAnimationDuration">300</item>
-        <item name="postSplashScreenTheme">@style/Theme.SplashScreen</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_cat_happy</item>
+        <item name="windowSplashScreenAnimationDuration">600</item>
+        <item name="postSplashScreenTheme">@style/Theme.AppCompat.DayNight.DarkActionBar</item>
 
-        <!-- Status bar and Nav bar configs -->
-        <item name="android:statusBarColor" tools:targetApi="l">@color/black</item>
-        <item name="android:navigationBarColor">@color/black</item>
-        <item name="android:windowLightStatusBar">false</item>
     </style>
 </resources>

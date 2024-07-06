@@ -25,4 +25,6 @@ interface BreedsRemoteKeyDao {
 
     @Query("SELECT * FROM breed_remote_keys WHERE id = (SELECT MAX(id) FROM breed_remote_keys)")
      fun getLastRemoteKey(): BreedRemoteKeyDbData
+    @Query("Select created_at From breed_remote_keys Order By created_at DESC LIMIT 1")
+     fun getCreationTime(): Long?
 }

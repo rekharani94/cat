@@ -54,8 +54,11 @@ class BreedsListdapter @Inject constructor() : PagingDataAdapter<BreedImage, Rec
             binding.ivBreedImage.load(breedImage?.url){
                 placeholder(R.drawable.ic_cat)
             }
-            binding.tvCatName.text = breedImage?.breeds?.get(0)?.name
-            binding.btnViewMore.text = breedImage?.breeds?.get(0)?.name
+            breedImage?.breeds?.map {
+                it.let {
+                    binding.btnViewMore.text =  it.name
+                }
+            }
             binding.btnViewMore.startAnimation(AnimationUtils.loadAnimation(binding.root.context, R.anim.blink))
             binding.btnViewMore.setOnClickListener {
                 breedImage?.let { image ->
@@ -65,6 +68,7 @@ class BreedsListdapter @Inject constructor() : PagingDataAdapter<BreedImage, Rec
                         )
                     it.findNavController().navigate(direction)
                 }
+                
             }
                 binding.root.setOnClickListener {
                     breedImage?.let { image ->

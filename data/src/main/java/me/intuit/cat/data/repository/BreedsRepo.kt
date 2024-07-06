@@ -5,6 +5,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
+import androidx.work.ListenableWorker
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -16,6 +17,7 @@ import me.intuit.cat.data.utils.NetworkHelper
 import me.intuit.cat.domain.model.BreedImage
 import me.intuit.cat.domain.repository.BreedsRepository
 import me.intuit.cat.domain.util.Result
+import me.intuit.cat.domain.util.getResult
 import me.intuit.cat.domain.util.onError
 import me.intuit.cat.domain.util.onSuccess
 import java.io.IOException
@@ -28,7 +30,7 @@ class BreedsRepo(private val remote: BreedsDataSource.Remote,
     companion object {
         const val DEFAULT_PAGE_INDEX = 1
         const val DEFAULT_PAGE_SIZE = 20
-        private const val CACHE_TTL = 60 * 60 * 1000 // Cache Time-To-Live (1 hour)
+        private const val CACHE_TTL = 3*60* 60 * 1000 // Cache Time-To-Live (1 hour)
 
 
     }
@@ -69,38 +71,46 @@ class BreedsRepo(private val remote: BreedsDataSource.Remote,
     }
 
     override suspend fun getImagesDirectlyFromDB(): Result<List<BreedImage>> {
-     return  local.getBreedImages().onSuccess {
-                     Result.Success(it)
-       }.onError {
-         Result.Error<Throwable>(it.fillInStackTrace())
-       }
-    }
-
-    override suspend fun sync(page: Int): Result<List<BreedImage>> {
-        return try {
-            if (networkHelper.isNetworkConnected()) {
-
-                val breedsRemotedata = remote.getBreedsImages(page,20)
-                // Invalidate local cache (example using timestamps)
-                val outdatedThreshold = System.currentTimeMillis() - CACHE_TTL
-                 local.clearOutdatedBreeds(threshhold =outdatedThreshold ) // Invalidate cache
-               // serviceDao.deleteServices(outdatedService)
-                // Update local database
-                breedsRemotedata.onSuccess {
-                    local.insertBreedsImagesList(it,page)
-                    Result.Success(it)
-                }
-            }
-            else{
-                Result.Error(Exception("No network connection"))
-
-            }
-        } catch (e: Exception) {
-            Result.Error(e)
+        return local.getBreedImages().onSuccess {
+            Result.Success(it)
+        }.onError {
+            Result.Error<Throwable>(it.fillInStackTrace())
         }
     }
-}
-fun getDefaultPageConfig(): PagingConfig {
-    return PagingConfig(pageSize = BreedsRepo.DEFAULT_PAGE_SIZE, enablePlaceholders = true)
+
+    override suspend fun sync(): Boolean {
+        try {
+            if (networkHelper.isNetworkConnected()) {
+                var currentPage = 1
+
+                var hasMorePages = true
+
+                while (hasMorePages) {
+                    val data = remote.getBreedsImages(currentPage, 20)
+                    val outdatedThreshold = System.currentTimeMillis() - CACHE_TTL
+
+                    local.clearOutdatedBreeds(threshhold = outdatedThreshold)
+                    data.getResult({
+
+                        hasMorePages = if (it.data.isNotEmpty()) true else false
+                        local.insertBreedsImagesList(it.data, currentPage)
+                        currentPage++
+                    }) {
+                        hasMorePages=false
+                    }
+                }
+                return true
+
+            } else {
+                return false
+            }
+        } catch (e: Exception) {
+            return false
+        }
+    }
+
+    fun getDefaultPageConfig(): PagingConfig {
+        return PagingConfig(pageSize = BreedsRepo.DEFAULT_PAGE_SIZE, enablePlaceholders = true)
+    }
 }
 

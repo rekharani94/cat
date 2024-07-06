@@ -1,6 +1,7 @@
 package me.intuit.cat.presentation.breed
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,11 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.Adapter.StateRestorationPolicy
+import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.WorkManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -28,6 +33,7 @@ import me.intuit.cat.presentation.common.FooterAdapter
 import me.intuit.cat.presentation.databinding.FragmentBreedListBinding
 import me.intuit.cat.presentation.utils.ErrorConstants
 import me.intuit.cat.presentation.utils.collect
+import me.intuit.cat.presentation.utils.collectLast
 import me.intuit.cat.presentation.utils.executeWithAction
 import java.util.Collections
 import java.util.Random
@@ -56,7 +62,7 @@ class BreedsListFragment : Fragment() {
         binding = FragmentBreedListBinding.inflate(inflater, container, false)
         initMembers()
         setListener()
-
+        setAdapter()
         subscribeUI(adapter)
 
         context ?: return binding.root
@@ -69,31 +75,33 @@ class BreedsListFragment : Fragment() {
 
         binding.rvBreeds.layoutManager  = GridLayoutManager(context,2)
         adapter = BreedsListdapter()
-        binding.rvBreeds.adapter = adapter
-        setAdapter()
-        adapter.stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
-        binding?.rvBreeds?.adapter = adapter.withLoadStateFooter(FooterAdapter(adapter::retry))
-       /* binding.container.setOnRefreshListener {
+        //binding.rvBreeds.adapter = adapter
+        //setAdapter()
+       // binding?.rvBreeds?.adapter = adapter.withLoadStateFooter(FooterAdapter(adapter::retry))
 
-            // on below line we are setting is refreshing to false.
-            binding.container.isRefreshing = false
-
-            // on below line we are shuffling our list using ra
-            // on below line we are notifying adapter
-            // that data has changed in recycler view.
-            adapter.refresh()
-        }*/
     }
     private fun subscribeUI(adapter: BreedsListdapter) {
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 breedsViewModel.uiState.collectLatest { state ->
+                  /* if(state is UiState.Success){
+                       adapter.submitData(state.data)
+                   }
+                    collect(flow = adapter.loadStateFlow
+                        .distinctUntilChangedBy { it.source.refresh }
+                        .map { it.refresh },
+                    action = ::setUsersUiState
+                    )*/
+
                     when (state) {
                         is UiState.Error -> {
                             handleErrorUI(state.message)
                         }
 
-                        is UiState.Loading -> state.toString()
+                        is UiState.Loading -> {
+                            state.toString()
+                        }
                         is UiState.Success -> {
                             list = state.data
                             adapter.submitData(state.data)
@@ -119,7 +127,12 @@ class BreedsListFragment : Fragment() {
     }
 
     private fun handleErrorUI(message: String) {
-        when (message) {
+        binding.imgNoDatafound.visibility = View.VISIBLE
+        binding.btnRetry.visibility = View.VISIBLE
+        binding.noInternet.visibility = View.VISIBLE
+        Log.e("error mesaage",message)
+
+        /*when (message) {
             ErrorConstants.EXCEPTION_MESSAGE -> {
                 binding.imgNoDatafound.visibility = View.VISIBLE
 
@@ -133,7 +146,7 @@ class BreedsListFragment : Fragment() {
             ErrorConstants.NO_DATA_AVAILABLE_IN_DB -> {
                 binding.imgNoDatafound.visibility = View.VISIBLE
             }
-        }
+        }*/
     }
 
 
@@ -146,9 +159,10 @@ class BreedsListFragment : Fragment() {
             .map { it.refresh },
             action = ::setUsersUiState
         )
-        binding.rvBreeds.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = FooterAdapter(adapter::retry),
-                footer = FooterAdapter(adapter::retry)
+        adapter.stateRestorationPolicy = StateRestorationPolicy.PREVENT_WHEN_EMPTY
+
+        binding.rvBreeds.adapter = adapter.withLoadStateFooter(
+                FooterAdapter(adapter::retry)
             )
     }
 
@@ -158,14 +172,3 @@ class BreedsListFragment : Fragment() {
         }
     }
 }
-/*lifecycleScope.launch {
-            breedsViewModel.networkState.observe(viewLifecycleOwner) { isOnline ->
-                // binding.progressBar.visibility = if (!isOnline) View.VISIBLE else View.GONE
-                // binding.imgNoInternet.visibility = if (!isOnline) View.VISIBLE else View.GONE
-                binding.noInternet.visibility = if (!isOnline) View.VISIBLE else View.GONE
-
-                *//*binding.btnRetry.visibility = if (!isOnline) View.VISIBLE else View.GONE
-                binding.rvBreeds.visibility = if (!isOnline) View.GONE else View.VISIBLE
-                binding.noInternet.visibility = if (!isOnline) View.VISIBLE else View.GONE*//*
-
-            }*/

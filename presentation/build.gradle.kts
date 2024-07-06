@@ -68,6 +68,7 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("androidx.activity:activity:1.9.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
     kapt("com.google.dagger:hilt-compiler:2.48")
     implementation("androidx.browser:browser:1.7.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
@@ -105,6 +106,9 @@ dependencies {
     implementation ("com.airbnb.android:lottie:3.6.0")
     //swipetorefreshlayout
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    //hilt worker
+    implementation("androidx.hilt:hilt-work:1.2.0")
+
     //Mockito
     testImplementation ("org.mockito:mockito-core:5.0.0")
     testImplementation ("org.mockito:mockito-inline:5.0.0")

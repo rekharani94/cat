@@ -15,26 +15,32 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
+        android:theme="@style/SplashScreenTheme"
         tools:targetApi="31">
         <activity
             android:name=".presentation.breed.CatsListActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
-
-        </activity>
-        <activity
-            android:name=".presentation.breed.SplashActivity"
             tools:node="merge"
             android:exported="true"
-           tools:replace="android:exported"
-           android:theme="@style/Theme.AppCompat.NoActionBar"
-           >
+            tools:replace="android:exported"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
+        <activity
+            android:name=".presentation.breed.SplashActivity"
+
+           android:theme="@style/Theme.AppCompat.NoActionBar"
+           >
+
+        </activity>
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            tools:node="remove" />
     </application>
 
 </manifest>
