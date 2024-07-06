@@ -30,3 +30,14 @@ jobs:
       
     - name: Run Tests
       run: ./gradlew test
+      
+    - name: Upload APK to Firebase App Distribution
+      env:
+        FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+        FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+        FIREBASE_GROUPS: ${{ secrets.FIREBASE_GROUPS }}
+      run: |
+        curl -sL https://firebase.tools | bash
+        firebase appdistribution:distribute app/build/outputs/apk/release/app-release.apk \
+          --app $FIREBASE_APP_ID \
+          --groups $FIREBASE_GROUPS
